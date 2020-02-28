@@ -1,0 +1,308 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>飞行员配对方案 | hkr04</title>
+<link rel="shortcut icon" href="https://hkr04.github.io/favicon.ico?v=1582881596776">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://hkr04.github.io/styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="飞行员配对方案 | hkr04 - Atom Feed" href="https://hkr04.github.io/atom.xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+
+
+    <meta name="description" content="题解
+二分图匹配。
+设一个超级源点和一个超级汇点，建立源点-&gt;外籍飞行员-&gt;英国飞行员-&gt;汇点的网络。所有边的容量设为1。此时，每单位流到汇点的流量即代表一对合法配对，配对间互不干扰。
+所以跑最大流即可得到最大匹配数。若想..." />
+    <meta name="keywords" content="网络流24题,网络流,题解" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+    <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://hkr04.github.io">
+  <img class="avatar" src="https://hkr04.github.io/images/avatar.png?v=1582881596776" alt="">
+  </a>
+  <h1 class="site-title">
+    hkr04
+  </h1>
+  <p class="site-description">
+    温故而知新
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="/" class="menu">
+          首页
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu">
+          归档
+        </a>
+      
+    
+      
+        <a href="/tags" class="menu">
+          标签
+        </a>
+      
+    
+      
+        <a href="/post/about" class="menu">
+          关于
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              飞行员配对方案
+            </h2>
+            <div class="post-info">
+              <span>
+                2020-02-28
+              </span>
+              <span>
+                3 min read
+              </span>
+              
+                <a href="https://hkr04.github.io/tag/rbBIcRlbH/" class="post-tag">
+                  # 网络流24题
+                </a>
+              
+                <a href="https://hkr04.github.io/tag/BHy59ue1j/" class="post-tag">
+                  # 网络流
+                </a>
+              
+                <a href="https://hkr04.github.io/tag/AUx6Qb151/" class="post-tag">
+                  # 题解
+                </a>
+              
+            </div>
+            
+            <div class="post-content-wrapper">
+              <div class="post-content">
+                <h4 id="题解">题解</h4>
+<p>二分图匹配。<br>
+设一个超级源点和一个超级汇点，建立源点-&gt;外籍飞行员-&gt;英国飞行员-&gt;汇点的网络。所有边的容量设为1。此时，每单位流到汇点的流量即代表一对合法配对，配对间互不干扰。</p>
+<p>所以跑最大流即可得到最大匹配数。若想得到谁和谁配对的方案，则看看哪条边流量为0即可。</p>
+<h4 id="代码">代码</h4>
+<pre><code class="language-cpp">#include &lt;cstdio&gt;
+#include &lt;cstring&gt;
+const int maxn=200+10;
+const int maxm=10000+10;
+const int INF=0x3f3f3f3f; 
+int cur[maxn],head[maxn],nxt[maxm&lt;&lt;1],to[maxm&lt;&lt;1],val[maxm&lt;&lt;1];
+int dep[maxn];
+int n,m,s,t;
+int tot=1,cnt=0;
+struct edge
+{
+    int u,v;
+    edge() {}
+    edge(int x,int y) {u=x,v=y;}
+}e[maxm];
+struct Queue
+{
+	int a[maxn];
+	int l,r;
+	Queue() {l=1,r=0;}
+	void push(int x) {a[++r]=x;}
+	void pop() {l++;}
+	int front() {return a[l];}
+	bool empty() {return l&gt;r;}
+}q;
+
+inline int min(int x,int y) {return x&lt;y?x:y;}
+void add(int u,int v,int w)
+{
+    nxt[++tot]=head[u];
+    head[u]=tot;
+    to[tot]=v;
+    val[tot]=w;
+}
+bool bfs()
+{
+    memset(dep, 0x3f, sizeof(dep));
+    dep[s]=0;
+    q=Queue();
+    q.push(s);
+    while(!q.empty())
+    {
+        int u=q.front();
+        q.pop();
+        for (int i=head[u];i;i=nxt[i])
+        {
+            int v=to[i]; 
+            if (val[i]&amp;&amp;dep[v]&gt;dep[u]+1)
+            {
+                dep[v]=dep[u]+1;
+                q.push(v);
+            }
+        } 
+    }
+    return dep[t]&lt;INF;
+}
+int dfs(int u,int minf)
+{
+    if (u==t)
+        return minf;
+    int used=0;
+    for (int &amp;i=cur[u];i;i=nxt[i])
+    {
+        int v=to[i];
+        if (val[i]&amp;&amp;dep[v]==dep[u]+1)
+        {
+        	int flow=dfs(v, min(minf-used, val[i]));
+            if (flow)
+            {
+                used+=flow;
+                val[i]-=flow;
+                val[i^1]+=flow;
+                if (used==minf)
+                    break; 
+            }
+        }
+     }
+     return used; 
+}
+int main()
+{
+    scanf(&quot;%d%d&quot;,&amp;m,&amp;n);
+    s=0,t=m+n+1;
+    int u=-1,v=-1;
+    while(scanf(&quot;%d%d&quot;,&amp;u,&amp;v)&amp;&amp;u!=-1) 
+    {
+        add(u, v, 1),add(v, u, 0);
+        e[++cnt]=edge(u, v);
+    }
+    for (int i=1;i&lt;=m;i++)
+        add(s, i, 1),add(i, s, 0);
+    for (int i=m+1;i&lt;=m+n;i++)
+        add(i, t, 1),add(t, i, 0);
+
+    int maxflow=0; 
+    while(bfs())
+    {
+    	for (int i=0;i&lt;=m+n;i++)
+    		cur[i]=head[i];
+    	maxflow+=dfs(s, INF);
+    }
+    printf(&quot;%d\n&quot;,maxflow);
+    for (int i=1;i&lt;=cnt;i++)
+        if (!val[i&lt;&lt;1])
+            printf(&quot;%d %d\n&quot;,e[i].u,e[i].v);
+    return 0;
+}
+</code></pre>
+
+              </div>
+              <div class="toc-container">
+                <ul class="markdownIt-TOC">
+<li>
+<ul>
+<li>
+<ul>
+<li>
+<ul>
+<li><a href="#%E9%A2%98%E8%A7%A3">题解</a></li>
+<li><a href="#%E4%BB%A3%E7%A0%81">代码</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+              </div>
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://hkr04.github.io/post/round-table-problem/">
+              <h3 class="post-title">
+                圆桌问题
+              </h3>
+            </a>
+          </div>
+        
+
+        
+
+        <div class="site-footer">
+  Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>
+  <a class="rss" href="https://hkr04.github.io/atom.xml" target="_blank">
+    <i class="ri-rss-line"></i> RSS
+  </a>
+</div>
+
+      </div>
+    </div>
+
+    <script>
+      hljs.initHighlightingOnLoad()
+
+      let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+      // This should probably be throttled.
+      // Especially because it triggers during smooth scrolling.
+      // https://lodash.com/docs/4.17.10#throttle
+      // You could do like...
+      // window.addEventListener("scroll", () => {
+      //    _.throttle(doThatStuff, 100);
+      // });
+      // Only not doing it here to keep this Pen dependency-free.
+
+      window.addEventListener("scroll", event => {
+        let fromTop = window.scrollY;
+
+        mainNavLinks.forEach((link, index) => {
+          let section = document.getElementById(decodeURI(link.hash).substring(1));
+          let nextSection = null
+          if (mainNavLinks[index + 1]) {
+            nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+          }
+          if (section.offsetTop <= fromTop) {
+            if (nextSection) {
+              if (nextSection.offsetTop > fromTop) {
+                link.classList.add("current");
+              } else {
+                link.classList.remove("current");    
+              }
+            } else {
+              link.classList.add("current");
+            }
+          } else {
+            link.classList.remove("current");
+          }
+        });
+      });
+
+    </script>
+  </body>
+</html>
