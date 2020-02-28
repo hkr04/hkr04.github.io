@@ -976,24 +976,28 @@ td {
 }
 
       .post-container .post .post-title {
-        text-align: center;
+        text-align: left;
       }
       .post-container .post .post-info {
-        text-align: center;
+        text-align: left;
       }
       .post-detail .post .post-title {
-        text-align: center;
+        text-align: left;
       }
       .post-detail .post .post-info {
-        text-align: center;
+        text-align: left;
       }
     
       body {
         font-family: -apple-system,BlinkMacSystemFont,'Helvetica Neue','PingFang SC','Hiragino Sans GB','Droid Sans Fallback','Microsoft YaHei',sans-serif;
       }
     
+      .main {
+        background: #e3fafc;
+      }
+    
       body {
-        background: #66ccff;
+        background: #f8f9fa;
       }
     
       a {
@@ -1001,6 +1005,6 @@ td {
       }
     
       a:hover {
-        color: #ff6b6b;
+        color: #212529;
       }
     
