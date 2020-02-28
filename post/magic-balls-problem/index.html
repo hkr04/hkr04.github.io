@@ -1,0 +1,323 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>题解【网络流24题】魔术球问题 | hkr04</title>
+<link rel="shortcut icon" href="https://hkr04.github.io/favicon.ico?v=1582881010654">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://hkr04.github.io/styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="题解【网络流24题】魔术球问题 | hkr04 - Atom Feed" href="https://hkr04.github.io/atom.xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+
+
+    <meta name="description" content="题目希望我们在nnn个柱子放上最多的球，并且要求相邻的球之间满足相加为完全平方数的条件。较显然的一点是，对于递增的nnn来说，其所能放的最多球的数量一定是单调上升的。因为新增加的柱子至少可以比前一个的最大方案多放一个。同时，如果编号为xxx..." />
+    <meta name="keywords" content="网络流,题解" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+    <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://hkr04.github.io">
+  <img class="avatar" src="https://hkr04.github.io/images/avatar.png?v=1582881010654" alt="">
+  </a>
+  <h1 class="site-title">
+    hkr04
+  </h1>
+  <p class="site-description">
+    温故而知新
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="/" class="menu">
+          首页
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu">
+          归档
+        </a>
+      
+    
+      
+        <a href="/tags" class="menu">
+          标签
+        </a>
+      
+    
+      
+        <a href="/post/about" class="menu">
+          关于
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              题解【网络流24题】魔术球问题
+            </h2>
+            <div class="post-info">
+              <span>
+                2020-02-28
+              </span>
+              <span>
+                5 min read
+              </span>
+              
+                <a href="https://hkr04.github.io/tag/BHy59ue1j/" class="post-tag">
+                  # 网络流
+                </a>
+              
+                <a href="https://hkr04.github.io/tag/AUx6Qb151/" class="post-tag">
+                  # 题解
+                </a>
+              
+            </div>
+            
+            <div class="post-content-wrapper">
+              <div class="post-content">
+                <p>题目希望我们在<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>n</mi></mrow><annotation encoding="application/x-tex">n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathdefault">n</span></span></span></span>个柱子放上最多的球，并且要求相邻的球之间满足相加为完全平方数的条件。较显然的一点是，对于递增的<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>n</mi></mrow><annotation encoding="application/x-tex">n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathdefault">n</span></span></span></span>来说，其所能放的最多球的数量一定是单调上升的。因为新增加的柱子至少可以比前一个的最大方案多放一个。同时，如果编号为<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>x</mi></mrow><annotation encoding="application/x-tex">x</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathdefault">x</span></span></span></span>的球已经找不到放下的方案，根据题目要求，大于<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>x</mi></mrow><annotation encoding="application/x-tex">x</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathdefault">x</span></span></span></span>的球数也一定是不合法的。</p>
+<p>再从另一个角度考虑，球数增加时所需要的最少柱子数量也是单调不增的。于是就可以将这题转化为<strong>求最大的球数，使得其最小覆盖恰不大于n</strong>。如果你还没有做过最小覆盖相关的题目，简单来说，就是你需要把一些元素分成互不相交的集合，且使得集合数最小。参考<a href="https://www.luogu.com.cn/blog/hkr04/the-smallest-path-cover">最小路径覆盖问题</a>，这两者的建模方式是类似的，在本题中每尝试增加一个球就让它尝试和之前的球连边即可。<br>
+这题就这么解决啦，关键的地方在于找出单调性和由最大转化为最小可行问题。</p>
+<p>（关于球的枚举上界问题，可以先设一个较大的值再跑一下极限数据看看）<br>
+代码：</p>
+<pre><code class="language-cpp">#include &lt;cstdio&gt;
+#include &lt;cstring&gt;
+#include &lt;cmath&gt;
+const int maxn=8000;
+const int maxm=5e5+10;
+const int INF=0x3f3f3f3f;
+const double eps=1e-6;
+int cur[maxn],head[maxn],to[maxm],nxt[maxm],val[maxm];
+int tot=1;
+int n,s,t;
+int dep[maxn],l[maxn],r[maxn];
+struct Queue
+{
+	int a[maxn];
+	int l,r;
+	Queue() {l=1,r=0;}
+	void push(int x) {a[++r]=x;}
+	void pop() {l++;}
+	int front() {return a[l];}
+	bool empty() {return l&gt;r;}
+}q;
+
+int min(int x,int y) {return x&lt;y?x:y;}
+bool check(int x,int y)
+{
+	double tmp=sqrt(x+y);
+	return tmp-(int)tmp&lt;eps;
+}
+void add(int u,int v,int w)
+{
+	nxt[++tot]=head[u];
+	head[u]=tot;
+	to[tot]=v;
+	val[tot]=w;
+}
+void cancel()
+{
+	int u=to[tot],v=to[tot^1];
+	head[u]=nxt[head[u]];
+	head[v]=nxt[head[v]];
+	tot-=2;
+}
+bool bfs()
+{
+	memset(dep, 0x3f, sizeof(dep));
+	dep[s]=0;
+	q=Queue();
+	q.push(s);
+	while(!q.empty())
+	{
+		int u=q.front();
+		q.pop();
+		for (int i=head[u];i;i=nxt[i])
+		{
+			int v=to[i];
+			if (val[i]&gt;0&amp;&amp;dep[v]&gt;dep[u]+1)
+			{
+				dep[v]=dep[u]+1;
+				q.push(v);
+			}
+		}
+	}
+	return dep[t]!=INF;
+}
+int dfs(int u,int minf)
+{
+	if (u==t)
+		return minf;
+	
+	int used=0;
+	for (int &amp;i=cur[u];i;i=nxt[i])
+	{
+		int v=to[i];
+		if (val[i]&gt;0&amp;&amp;dep[v]==dep[u]+1)
+		{
+			int flow=dfs(v, min(minf-used, val[i]));
+			if (flow)
+			{
+				used+=flow;
+				val[i]-=flow;
+				val[i^1]+=flow;
+				if (used==minf)
+					break;
+			}
+		}
+	}
+	return used;
+}
+int main()
+{
+	scanf(&quot;%d&quot;,&amp;n);
+	int lim=n*n;
+	s=0,t=lim*2+1;
+	int v;
+	int pre_tot=1;
+	for (v=1;v&lt;=lim;v++)
+	{
+		for (int i=2;i&lt;=tot;i++)
+			val[i]=i&amp;1?0:1;
+		add(s, v, 1),add(v, s, 0);
+		add(v+lim, t, 1),add(t, v+lim, 0);
+		for (int u=v-1;u&gt;=1;u--)
+			if (check(u, v))
+				add(u, v+lim, 1),add(v+lim, u, 0);
+
+		int ans=0;
+		while(bfs())
+		{
+			for (int i=s;i&lt;=v+lim;i++)
+				cur[i]=head[i];
+			ans+=dfs(s, INF);
+		}
+		if (v-ans&gt;n)
+		{
+			v--;
+			break;
+		}
+		pre_tot=tot;
+	}
+
+	while(tot&gt;pre_tot)
+		cancel();
+	for (int i=2;i&lt;=tot;i++)
+		val[i]=i&amp;1?0:1;
+	
+	while(bfs())
+	{
+		for (int i=s;i&lt;=v+lim;i++)
+			cur[i]=head[i];
+		dfs(s, INF);
+	}
+
+	for (int u=1;u&lt;=v;u++)
+		for (int i=head[u];i;i=nxt[i])
+		{
+			if (!val[i]&amp;&amp;to[i]!=s)
+				r[u]=to[i]-lim,l[to[i]-lim]=u;
+		}
+
+	printf(&quot;%d\n&quot;,v);
+	for (int i=1;i&lt;=v;i++)
+	{
+		if (l[i])
+			continue;
+		int u=i;
+		while(u)
+		{
+			printf(&quot;%d &quot;,u);
+			u=r[u];
+		}
+		putchar('\n');
+	}
+	return 0;
+}
+</code></pre>
+
+              </div>
+              <div class="toc-container">
+                
+              </div>
+            </div>
+          </article>
+        </div>
+
+        
+
+        
+
+        <div class="site-footer">
+  Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>
+  <a class="rss" href="https://hkr04.github.io/atom.xml" target="_blank">
+    <i class="ri-rss-line"></i> RSS
+  </a>
+</div>
+
+      </div>
+    </div>
+
+    <script>
+      hljs.initHighlightingOnLoad()
+
+      let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+      // This should probably be throttled.
+      // Especially because it triggers during smooth scrolling.
+      // https://lodash.com/docs/4.17.10#throttle
+      // You could do like...
+      // window.addEventListener("scroll", () => {
+      //    _.throttle(doThatStuff, 100);
+      // });
+      // Only not doing it here to keep this Pen dependency-free.
+
+      window.addEventListener("scroll", event => {
+        let fromTop = window.scrollY;
+
+        mainNavLinks.forEach((link, index) => {
+          let section = document.getElementById(decodeURI(link.hash).substring(1));
+          let nextSection = null
+          if (mainNavLinks[index + 1]) {
+            nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+          }
+          if (section.offsetTop <= fromTop) {
+            if (nextSection) {
+              if (nextSection.offsetTop > fromTop) {
+                link.classList.add("current");
+              } else {
+                link.classList.remove("current");    
+              }
+            } else {
+              link.classList.add("current");
+            }
+          } else {
+            link.classList.remove("current");
+          }
+        });
+      });
+
+    </script>
+  </body>
+</html>
