@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://hkr04.github.io</id>
-    <title>hkr04</title>
-    <updated>2020-02-28T09:29:09.259Z</updated>
+    <title>hkr04‘s blogs</title>
+    <updated>2020-02-28T09:30:02.916Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://hkr04.github.io"/>
     <link rel="self" href="https://hkr04.github.io/atom.xml"/>
     <subtitle>撒野奔跑，踩碎迷茫。</subtitle>
     <logo>https://hkr04.github.io/images/avatar.png</logo>
     <icon>https://hkr04.github.io/favicon.ico</icon>
-    <rights>All rights reserved 2020, hkr04</rights>
+    <rights>All rights reserved 2020, hkr04‘s blogs</rights>
     <entry>
         <title type="html"><![CDATA[飞行员配对方案]]></title>
         <id>https://hkr04.github.io/post/pilots-matching/</id>
