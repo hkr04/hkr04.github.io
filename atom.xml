@@ -2,11 +2,11 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://hkr04.github.io</id>
     <title>hkr04</title>
-    <updated>2020-02-28T09:20:40.151Z</updated>
+    <updated>2020-02-28T09:29:09.259Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://hkr04.github.io"/>
     <link rel="self" href="https://hkr04.github.io/atom.xml"/>
-    <subtitle>温故而知新</subtitle>
+    <subtitle>撒野奔跑，踩碎迷茫。</subtitle>
     <logo>https://hkr04.github.io/images/avatar.png</logo>
     <icon>https://hkr04.github.io/favicon.ico</icon>
     <rights>All rights reserved 2020, hkr04</rights>
