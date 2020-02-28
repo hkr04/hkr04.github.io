@@ -6,7 +6,7 @@
 <meta name="keywords" content="Gridea静态个人博客">
 <meta name="description" content="撒野奔跑，踩碎迷茫。">
 <meta name="theme-color" content="#000">
-<title>圆桌问题 | hkr04‘s blogs</title>
+<title>Dinic算法 | hkr04‘s blogs</title>
 <link rel="shortcut icon" href="https://hkr04.github.io/favicon.ico?v=1582898691263">
 <link rel="stylesheet" href="https://hkr04.github.io/styles/main.css">
 
@@ -25,8 +25,8 @@
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous"
     onload="renderMathInElement(document.body);"></script>
 
-    <meta name="description" content="圆桌问题" />
-    <meta name="keywords" content="网络流24题,网络流,题解" />
+    <meta name="description" content="Dinic算法" />
+    <meta name="keywords" content="笔记,网络流" />
   </head>
   <body>
     <div class="head-top-line"></div>
@@ -142,8 +142,7 @@
       <div class="sidebar-body gemini" id="sidebar_body">
         
           
-            <div class="post-side-meta" id="post_side_meta">
-              
+            
 <div class="sidebar-wrapper box-shadow-wrapper bg-color">
   <div class="sidebar-item">
     <img class="site-author-image right-motion" src="https://hkr04.github.io/images/avatar.png"/>
@@ -181,190 +180,6 @@
 
 
 </div>
-            </div>
-            <div class="post-toc sidebar-body-active" id="post_toc" style="opacity: 1;">
-              <div class="toc-box right-motion">
-  <div class="toc-wrapper auto-number auto" id="toc_wrapper">
-    <ul class="markdownIt-TOC">
-<li>
-<ul>
-<li>
-<ul>
-<li>
-<ul>
-<li><a href="#%E9%A2%98%E8%A7%A3">题解</a></li>
-<li><a href="#%E4%BB%A3%E7%A0%81">代码</a></li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-
-  </div>
-</div>
-
-<script>
-
-let lastTop = 0, lList = [], hList = [], postBody, lastIndex = -1; 
-let active = 'active-show', activeClass = 'active-current';
-let tocWrapper = document.querySelector('#toc_wrapper');
-let tocContent = tocWrapper.children[0];
-let autoNumber = tocWrapper&&tocWrapper.classList.contains('auto-number');
-
-function addTocNumber(elem, deep) {
-  if (!elem) {
-    return;
-  }
-  let prop = elem.__proto__;
-
-  if (prop === HTMLUListElement.prototype) {
-    for (let i = 0; i < elem.children.length; i++) {
-      addTocNumber(elem.children[i], deep + (i + 1) + '.');
-    }
-  } else if (prop === HTMLLIElement.prototype) {
-    // 保存li元素
-    lList.push(elem);
-    for (let i = 0; i < elem.children.length; i++) {
-      let cur = elem.children[i];
-      if (cur.__proto__ === HTMLAnchorElement.prototype) {
-        if (autoNumber) {
-          cur.text =  deep + ' ' + cur.text;
-        }
-      } else if (cur.__proto__ === HTMLUListElement.prototype) {
-        addTocNumber(cur, deep);
-      }
-    }
-  }
-}
-
-
-document.addEventListener('scroll', function(e) {
-  if (lList.length <= 0) {
-    return;
-  }
-  let scrollTop = document.scrollingElement.scrollTop;
-  let dir;
-
-  if (lastTop - scrollTop > 0) {
-    dir = 'up';
-  } else {
-    dir = 'down';
-  }
-
-  lastTop = scrollTop;
-  if (scrollTop <= 0) {
-    if (lastIndex >= 0 && lastIndex < hList.length) {
-      lList[lastIndex].classList.remove(activeClass);
-    }
-    return;
-  }
-
-  let current = 0, hasFind = false;
-  for (let i = 0; i < hList.length; i++) {
-    if (hList[i].offsetTop > scrollTop) {
-      current = i;
-      hasFind = true;
-      break;
-    }
-  }
-  if (!hasFind && scrollTop > lList[lList.length - 1].offsetTop) {
-    current = hList.length - 1;
-  } else {
-    current--;
-  }
-  if (dir === 'down') {
-    if (current > lastIndex) {
-      addActiveClass(current);
-      removeActiveClass(lastIndex) 
-      lastIndex = current;
-      removeParentActiveClass();
-      lList[current] && addActiveLiElemment(lList[current].parentElement,tocContent);
-    }
-  } else {
-    if (current < lastIndex) {
-      addActiveClass(current);
-      removeActiveClass(lastIndex);
-      lastIndex = current;
-      removeParentActiveClass();
-      lList[current] && addActiveLiElemment(lList[current].parentElement,tocContent);
-    }
-  }
-});
-
-function removeParentActiveClass() {
-  let parents = tocContent.querySelectorAll('.'+active)
-  parents.forEach(function(elem) {
-    elem.classList.remove(active);
-  });
-}
-
-function addActiveClass(index) {
-  if (index >= 0 && index < hList.length) {
-    lList[index].classList.add(activeClass);
-  }
-}
-
-function removeActiveClass(index) {
-  if (index >= 0 && index < hList.length) {
-    lList[index].classList.remove(activeClass);
-  }
-}
-
-function addActiveLiElemment(elem, parent) {
-  if (!elem || elem === parent) {
-    return;
-  } else {
-    if (elem.__proto__ === HTMLLIElement.prototype) {
-      elem.classList.add(active);
-    }
-    addActiveLiElemment(elem.parentElement, parent);
-  }
-}
-
-function showToc() {
-  if (tocWrapper) {
-    postBody = document.querySelector('#post_body');
-    for (let i = 0; i < postBody.children.length; i++) {
-      if (postBody.children[i].__proto__ === HTMLHeadingElement.prototype) {
-        hList.push(postBody.children[i]);
-      }
-    }
-    if (tocWrapper.classList.contains('compress')) {
-        tocContent.classList.add('closed');
-    } else if (tocWrapper.classList.contains('no_compress')){
-      tocContent.classList.add('expanded');
-    } else {
-      if (hList.length > 10) {
-        active = 'active-hidden'
-        tocContent.classList.add('closed');
-      } else {
-        tocContent.classList.add('expanded');
-      }
-    }
-  }
-}
-addTocNumber(tocContent, '');
-
-window.addEventListener('load', function() {
-  showToc();
-  document.querySelector('#sidebar').style='display: block;';
-  tocWrapper.classList.add('toc-active');
-  setTimeout(function() {
-    if ("createEvent" in document) {
-      let evt = document.createEvent("HTMLEvents");
-      evt.initEvent("scroll", false, true);
-      document.dispatchEvent(evt);
-    }
-    else {
-      document.fireEvent("scroll");
-    }
-  }, 500)
-})
-
-</script>
-            </div>
           
         
       </div>
@@ -453,8 +268,8 @@ window.addEventListener('load', function() {
               <div class="article-box">
     <header class="post-header">
   <h1 class="post-title">
-    <a class="post-title-link" href="https://hkr04.github.io/round-table-problem/">
-      圆桌问题
+    <a class="post-title-link" href="https://hkr04.github.io/Dinic/">
+      Dinic算法
     </a>
   </h1>
   <div class="post-meta">
@@ -471,20 +286,14 @@ window.addEventListener('load', function() {
         <span class="pc-show">分类于</span>
         
           
-            <a href="https://hkr04.github.io/rbBIcRlbH/">
-              <span>网络流24题</span>
+            <a href="https://hkr04.github.io/rdrsFYwkR/">
+              <span>笔记</span>
             </a>、
           
         
           
             <a href="https://hkr04.github.io/BHy59ue1j/">
               <span>网络流</span>
-            </a>、
-          
-        
-          
-            <a href="https://hkr04.github.io/AUx6Qb151/">
-              <span>题解</span>
             </a>
           
         
@@ -498,26 +307,32 @@ window.addEventListener('load', function() {
     <span class="meta-item">
       <span class="post-meta-divider">|</span>
       <i class="fa fa-file-word-o"></i>
-      <span>658<span class="pc-show">字数</span></span>
+      <span>842<span class="pc-show">字数</span></span>
     </span>
   </div>
 </header>
 </div>
               <div class="post-body next-md-body" id="post_body">
-                <h4 id="题解">题解</h4>
-<p>建立超级源超级汇，建立<strong>源点-&gt;国际单位-&gt;圆桌-&gt;汇点</strong>的网络。其中，源点连边容量为<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>r</mi><mi>i</mi></msub></mrow><annotation encoding="application/x-tex">r_i</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.58056em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.02778em;">r</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:-0.02778em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>（INF也可以，反正限制主要是后面），国际单位连边容量为1，圆桌连边容量为<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>c</mi><mi>i</mi></msub></mrow><annotation encoding="application/x-tex">c_i</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.58056em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault">c</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>。跑出最大流即可得到最大匹配，与人数总数相比较即可知道是否有合法方案。方案统计只需对每个单位查询有哪些边的流量不为0即可。</p>
-<p>有一个小技巧是，先连<strong>国际单位-&gt;圆桌</strong>，后面统计时，查验边是否流量不为0的顺序就和存边时相等。由于同时存正反边（编号从2开始），第<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>i</mi></mrow><annotation encoding="application/x-tex">i</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.65952em;vertical-align:0em;"></span><span class="mord mathdefault">i</span></span></span></span>个单位和第<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>j</mi></mrow><annotation encoding="application/x-tex">j</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.85396em;vertical-align:-0.19444em;"></span><span class="mord mathdefault" style="margin-right:0.05724em;">j</span></span></span></span>个圆桌之间的边的编号即为<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mo>(</mo><mo>(</mo><mi>i</mi><mo>−</mo><mn>1</mn><mo>)</mo><mo>×</mo><mi>n</mi><mo>+</mo><mi>j</mi><mo>)</mo><mo>×</mo><mn>2</mn></mrow><annotation encoding="application/x-tex">((i-1)\times n+j)\times 2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mopen">(</span><span class="mord mathdefault">i</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">1</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.66666em;vertical-align:-0.08333em;"></span><span class="mord mathdefault">n</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.05724em;">j</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">2</span></span></span></span>。</p>
-<h4 id="代码">代码</h4>
+                <p><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mtext>Dinic</mtext></mrow><annotation encoding="application/x-tex">\text{Dinic}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord text"><span class="mord">Dinic</span></span></span></span></span>相对<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mtext>EK</mtext></mrow><annotation encoding="application/x-tex">\text{EK}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord text"><span class="mord">EK</span></span></span></span></span>的高效之处在于运用了<strong>分层图</strong>(即由满足<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mtext>dep[v]=dep[u]+1</mtext></mrow><annotation encoding="application/x-tex">\text{dep[v]=dep[u]+1}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord text"><span class="mord">dep[v]=dep[u]+1</span></span></span></span></span>的边<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mo>(</mo><mi>u</mi><mo separator="true">,</mo><mi>v</mi><mo>)</mo></mrow><annotation encoding="application/x-tex">(u,v)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathdefault">u</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault" style="margin-right:0.03588em;">v</span><span class="mclose">)</span></span></span></span>构成的子图，为有向无环图)，当考虑流向的点在分层图中深度比当前点大1 时才向那个点走，去尝试找增广路。不用担心联通性可能在这个分层图中被破坏，它在之后的分层中还是会考虑到的；不需要在意这条增广路是否为最优，只要走就是了，反正还是有反悔的机会的。<br>
+时间复杂度:<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>O</mi><mo>(</mo><msup><mi>n</mi><mn>2</mn></msup><mi>m</mi><mo>)</mo></mrow><annotation encoding="application/x-tex">O(n^2m)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.064108em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord"><span class="mord mathdefault">n</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span><span class="mord mathdefault">m</span><span class="mclose">)</span></span></span></span>，实际运用远达不到这个上界，一般能处理<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mn>1</mn><msup><mn>0</mn><mn>4</mn></msup></mrow><annotation encoding="application/x-tex">10^4</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8141079999999999em;vertical-align:0em;"></span><span class="mord">1</span><span class="mord"><span class="mord">0</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">4</span></span></span></span></span></span></span></span></span></span></span>~<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mn>1</mn><msup><mn>0</mn><mn>5</mn></msup></mrow><annotation encoding="application/x-tex">10^5</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8141079999999999em;vertical-align:0em;"></span><span class="mord">1</span><span class="mord"><span class="mord">0</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">5</span></span></span></span></span></span></span></span></span></span></span>规模的网络。</p>
+<p>怎么实现呢？</p>
+<ol>
+<li>在残量网络上使用BFS构造分层图</li>
+<li>在分层图上使用DFS尝试寻找增广路，并且实时更新每条边的容量</li>
+<li>重复执行1.2直到分层图中s不能到达t（没有增广路）为止</li>
+</ol>
+<p>在优化<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mtext>BFS</mtext></mrow><annotation encoding="application/x-tex">\text{BFS}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord text"><span class="mord">BFS</span></span></span></span></span>次数之后，我们还可以进行优化——<strong>当前弧优化</strong>。</p>
+<p>对于在不同的分层图进行<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mtext>DFS</mtext></mrow><annotation encoding="application/x-tex">\text{DFS}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord text"><span class="mord">DFS</span></span></span></span></span>的过程中，不重复走之前走过的<strong>满流</strong>的边，因为再走下去终究会卡住，是白做工。可以用一个数组<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mtext>cur</mtext></mrow><annotation encoding="application/x-tex">\text{cur}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord text"><span class="mord">cur</span></span></span></span></span>记录一下当前点更新到哪条边了，具体看代码。</p>
 <pre><code class="language-cpp">#include &lt;cstdio&gt;
-const int maxn=500;
-const int maxm=1e5;
-const int INF=0x3f3f3f3f;
-int cur[maxn],head[maxn],to[maxm&lt;&lt;1],nxt[maxm&lt;&lt;1],val[maxm&lt;&lt;1];
+#include &lt;cstring&gt;
+const int maxn=10000+10;
+const int maxm=100000+10;
+const int INF=0x3f3f3f3f; 
+int cur[maxn],head[maxn],nxt[maxm&lt;&lt;1],to[maxm&lt;&lt;1],val[maxm&lt;&lt;1];//因为还要存反向边，所以要开两倍 
+int dep[maxn],inq[maxn];
+int n,m,s,t;
 int tot=1;
-int c[maxn],r[maxn];
-int s,t,n,m;
-int dep[maxn];
-struct  Queue
+struct Queue
 {
 	int a[maxn];
 	int l,r;
@@ -528,99 +343,78 @@ struct  Queue
 	bool empty() {return l&gt;r;}
 }q;
 
-int min(int x,int y) {return x&lt;y?x:y;}
+inline int min(int x,int y) {return x&lt;y?x:y;}
 void add(int u,int v,int w)
 {
-	nxt[++tot]=head[u];
-	head[u]=tot;
-	to[tot]=v;
-	val[tot]=w;
+    nxt[++tot]=head[u];
+    head[u]=tot;
+    to[tot]=v;
+    val[tot]=w;
 }
 bool bfs()
 {
-	for (int i=1;i&lt;=n+m+1;i++)
-		dep[i]=INF;
-	q=Queue();
-	dep[s]=0;
-	q.push(s);
-	while(!q.empty())
-	{
-		int u=q.front();
-		q.pop();
-		for (int i=head[u];i;i=nxt[i])
-		{
-			int v=to[i];
-			if (val[i]&amp;&amp;dep[v]&gt;dep[u]+1)
-			{
-				dep[v]=dep[u]+1;
-				q.push(v);
-			}
-		}
-	}
-	return dep[t]&lt;INF;
+    memset(dep, 0x3f, sizeof(dep));
+    dep[s]=0;
+    q=Queue();
+    q.push(s);
+    while(!q.empty())
+    {
+        int u=q.front();
+        q.pop();
+        for (int i=head[u];i;i=nxt[i])
+        {
+            int v=to[i];//通向的点 
+            if (val[i]&amp;&amp;dep[v]&gt;dep[u]+1)//如果容量不为0且在u点之前还没有被搜到
+            {
+                dep[v]=dep[u]+1;
+                q.push(v);
+            }
+        } 
+    }
+    return dep[t]&lt;INF;//只要汇点被搜到了，就还有增广路 
 }
-int dfs(int u,int minf)
+int dfs(int u,int minf)//当前位置和目前搜到的最小剩余容量
 {
-	if (u==t)
-		return minf;
-	int used=0;
-	for (int &amp;i=cur[u];i;i=nxt[i])
-	{
-		int v=to[i];
-		if (val[i]&amp;&amp;dep[v]==dep[u]+1)
-		{
-			int flow=dfs(v, min(minf-used, val[i]));
-			if (flow)
-			{
-				used+=flow;
-				val[i]-=flow;
-				val[i^1]+=flow;
-				if (used==minf)
-					break;
-			}
-		}
-	}
-	return used;
+    if (u==t)//到达汇点
+        return minf;//返回值不为0即说明可以增广
+
+    int used=0;//该点已经使用了的流量
+    for (int &amp;i=cur[u];i;i=nxt[i])//这里取址是顺便更新cur
+    {
+        int v=to[i];
+        if (val[i]&amp;&amp;dep[v]==dep[u]+1)
+        {
+        	int flow=dfs(v, min(minf-used, val[i]));//能流到t的流量 
+            if (flow)
+            {
+                used+=flow;
+                val[i]-=flow;
+                val[i^1]+=flow;
+                if (used==minf)//该点已达最大流量，不用继续找了 
+                    break; 
+            }
+        }
+     }
+     return used;//返回该点已使用流量 
 }
 int main()
 {
-	scanf(&quot;%d%d&quot;,&amp;m,&amp;n);
-	int sum=0;
-	for (int i=1;i&lt;=m;i++)
-		scanf(&quot;%d&quot;,&amp;r[i]),sum+=r[i];
-	for (int i=1;i&lt;=n;i++)
-		scanf(&quot;%d&quot;,&amp;c[i]);
-	for (int i=1;i&lt;=m;i++)
-		for (int j=1;j&lt;=n;j++)
-			add(i, m+j, 1),add(m+j, i, 0);
-
-	s=0,t=n+m+1;
-	for (int i=1;i&lt;=m;i++)
-		add(s, i, r[i]),add(i, s, 0);
-	for (int i=1;i&lt;=n;i++)
-		add(m+i, t, c[i]),add(t, m+i, 0);
-
-	int cnt=0;
-	while(bfs())
-	{
-		for (int i=0;i&lt;=n+m;i++)
-			cur[i]=head[i];
-		cnt+=dfs(s, INF);
-	}
-	if (cnt&lt;sum)
-		printf(&quot;0\n&quot;);
-	else
-	{
-		printf(&quot;1\n&quot;);
-		for (int i=1;i&lt;=m;i++)
-		{
-			for (int j=1;j&lt;=n;j++)
-				if (!val[((i-1)*n+j)&lt;&lt;1])
-					printf(&quot;%d &quot;,j);
-			putchar('\n');
-		}
-	}
-	return 0;
+    scanf(&quot;%d%d%d%d&quot;,&amp;n,&amp;m,&amp;s,&amp;t);
+    for (int i=1;i&lt;=m;i++)
+    {
+        int u,v,w;
+        scanf(&quot;%d%d%d&quot;,&amp;u,&amp;v,&amp;w);
+        add(u, v, w),add(v, u, 0);
+    }
+    int flag=0,maxflow=0; 
+    while(bfs())
+    {
+    	for (int i=1;i&lt;=n;i++)//新的分层图要重新开始
+    		cur[i]=head[i];
+    	maxflow+=dfs(s, INF);
+    }
+    printf(&quot;%d\n&quot;,maxflow);
+    return 0;
 }
 </code></pre>
 
@@ -633,7 +427,7 @@ int main()
     </li>
     <li class="post-copyright-link">
       <strong>本文链接：</strong>
-      <a href="https://hkr04.github.io/round-table-problem/" title="圆桌问题">圆桌问题</a>
+      <a href="https://hkr04.github.io/Dinic/" title="Dinic算法">Dinic算法</a>
     </li>
     <li class="post-copyright-license">
       <strong>版权声明： </strong>
@@ -642,25 +436,23 @@ int main()
   </ul>
   <div class="tags">
     
-      <a href="https://hkr04.github.io/rbBIcRlbH/"># 网络流24题</a>
+      <a href="https://hkr04.github.io/rdrsFYwkR/"># 笔记</a>
     
       <a href="https://hkr04.github.io/BHy59ue1j/"># 网络流</a>
-    
-      <a href="https://hkr04.github.io/AUx6Qb151/"># 题解</a>
     
   </div>
   <div class="nav">
     <div class="nav-prev">
       
         <i class="fa fa-chevron-left"></i>
-        <a class="nav-pc-next" title="飞行员配对方案" href="https://hkr04.github.io/pilots-matching/">飞行员配对方案</a class="nav-pc-next">
-        <a class="nav-mobile-prev" title="飞行员配对方案" href="https://hkr04.github.io/pilots-matching/">上一篇</a>
+        <a class="nav-pc-next" title="Edmunds-Karp算法" href="https://hkr04.github.io/Edmunds-Karp/">Edmunds-Karp算法</a class="nav-pc-next">
+        <a class="nav-mobile-prev" title="Edmunds-Karp算法" href="https://hkr04.github.io/Edmunds-Karp/">上一篇</a>
       
     </div>
     <div class="nav-next">
       
-        <a class="nav-pc-next" title="最小路径覆盖问题" href="https://hkr04.github.io/the-smallest-path-cover/">最小路径覆盖问题</a>
-        <a class="nav-mobile-next" title="最小路径覆盖问题" href="https://hkr04.github.io/the-smallest-path-cover/">下一篇</a>
+        <a class="nav-pc-next" title="飞行员配对方案" href="https://hkr04.github.io/pilots-matching/">飞行员配对方案</a>
+        <a class="nav-mobile-next" title="飞行员配对方案" href="https://hkr04.github.io/pilots-matching/">下一篇</a>
         <i class="fa fa-chevron-right"></i>
       
     </div>

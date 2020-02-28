@@ -6,7 +6,7 @@
 <meta name="keywords" content="Gridea静态个人博客">
 <meta name="description" content="撒野奔跑，踩碎迷茫。">
 <meta name="theme-color" content="#000">
-<title>圆桌问题 | hkr04‘s blogs</title>
+<title>线段树入门 | hkr04‘s blogs</title>
 <link rel="shortcut icon" href="https://hkr04.github.io/favicon.ico?v=1582898691263">
 <link rel="stylesheet" href="https://hkr04.github.io/styles/main.css">
 
@@ -25,8 +25,8 @@
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous"
     onload="renderMathInElement(document.body);"></script>
 
-    <meta name="description" content="圆桌问题" />
-    <meta name="keywords" content="网络流24题,网络流,题解" />
+    <meta name="description" content="线段树入门" />
+    <meta name="keywords" content="线段树,数据结构,笔记" />
   </head>
   <body>
     <div class="head-top-line"></div>
@@ -188,14 +188,11 @@
     <ul class="markdownIt-TOC">
 <li>
 <ul>
-<li>
+<li><a href="#%E6%B3%A8%E4%BB%A5%E4%B8%8B%E4%BB%A3%E7%A0%81%E4%BB%A5%E5%9F%BA%E7%A1%80%E7%9A%84%E5%8C%BA%E9%97%B4%E4%BF%AE%E6%94%B9%E5%92%8C%E6%9F%A5%E8%AF%A2%E5%8C%BA%E9%97%B4%E5%92%8C%E7%9A%84%E7%BA%BF%E6%AE%B5%E6%A0%91%E4%B8%BA%E4%BE%8B">注：以下代码以基础的区间修改和查询区间和的线段树为例</a>
 <ul>
-<li>
-<ul>
-<li><a href="#%E9%A2%98%E8%A7%A3">题解</a></li>
-<li><a href="#%E4%BB%A3%E7%A0%81">代码</a></li>
-</ul>
-</li>
+<li><a href="#1-%E6%9E%84%E5%BB%BA">1. 构建：</a></li>
+<li><a href="#2-%E4%BF%AE%E6%94%B9">2. 修改：</a></li>
+<li><a href="#3-%E6%9F%A5%E8%AF%A2">3. 查询</a></li>
 </ul>
 </li>
 </ul>
@@ -453,8 +450,8 @@ window.addEventListener('load', function() {
               <div class="article-box">
     <header class="post-header">
   <h1 class="post-title">
-    <a class="post-title-link" href="https://hkr04.github.io/round-table-problem/">
-      圆桌问题
+    <a class="post-title-link" href="https://hkr04.github.io/segment-tree/">
+      线段树入门
     </a>
   </h1>
   <div class="post-meta">
@@ -471,20 +468,20 @@ window.addEventListener('load', function() {
         <span class="pc-show">分类于</span>
         
           
-            <a href="https://hkr04.github.io/rbBIcRlbH/">
-              <span>网络流24题</span>
+            <a href="https://hkr04.github.io/qkZ2mtZDC/">
+              <span>线段树</span>
             </a>、
           
         
           
-            <a href="https://hkr04.github.io/BHy59ue1j/">
-              <span>网络流</span>
+            <a href="https://hkr04.github.io/00iKSZT709/">
+              <span>数据结构</span>
             </a>、
           
         
           
-            <a href="https://hkr04.github.io/AUx6Qb151/">
-              <span>题解</span>
+            <a href="https://hkr04.github.io/rdrsFYwkR/">
+              <span>笔记</span>
             </a>
           
         
@@ -493,136 +490,130 @@ window.addEventListener('load', function() {
     
     <span class="meta-item">
       <i class="fa fa-clock-o"></i>
-      <span>4分钟</span>
+      <span>7分钟</span>
     </span>
     <span class="meta-item">
       <span class="post-meta-divider">|</span>
       <i class="fa fa-file-word-o"></i>
-      <span>658<span class="pc-show">字数</span></span>
+      <span>1682<span class="pc-show">字数</span></span>
     </span>
   </div>
 </header>
 </div>
               <div class="post-body next-md-body" id="post_body">
-                <h4 id="题解">题解</h4>
-<p>建立超级源超级汇，建立<strong>源点-&gt;国际单位-&gt;圆桌-&gt;汇点</strong>的网络。其中，源点连边容量为<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>r</mi><mi>i</mi></msub></mrow><annotation encoding="application/x-tex">r_i</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.58056em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.02778em;">r</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:-0.02778em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>（INF也可以，反正限制主要是后面），国际单位连边容量为1，圆桌连边容量为<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>c</mi><mi>i</mi></msub></mrow><annotation encoding="application/x-tex">c_i</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.58056em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault">c</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>。跑出最大流即可得到最大匹配，与人数总数相比较即可知道是否有合法方案。方案统计只需对每个单位查询有哪些边的流量不为0即可。</p>
-<p>有一个小技巧是，先连<strong>国际单位-&gt;圆桌</strong>，后面统计时，查验边是否流量不为0的顺序就和存边时相等。由于同时存正反边（编号从2开始），第<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>i</mi></mrow><annotation encoding="application/x-tex">i</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.65952em;vertical-align:0em;"></span><span class="mord mathdefault">i</span></span></span></span>个单位和第<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>j</mi></mrow><annotation encoding="application/x-tex">j</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.85396em;vertical-align:-0.19444em;"></span><span class="mord mathdefault" style="margin-right:0.05724em;">j</span></span></span></span>个圆桌之间的边的编号即为<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mo>(</mo><mo>(</mo><mi>i</mi><mo>−</mo><mn>1</mn><mo>)</mo><mo>×</mo><mi>n</mi><mo>+</mo><mi>j</mi><mo>)</mo><mo>×</mo><mn>2</mn></mrow><annotation encoding="application/x-tex">((i-1)\times n+j)\times 2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mopen">(</span><span class="mord mathdefault">i</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">1</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.66666em;vertical-align:-0.08333em;"></span><span class="mord mathdefault">n</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.05724em;">j</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">2</span></span></span></span>。</p>
-<h4 id="代码">代码</h4>
-<pre><code class="language-cpp">#include &lt;cstdio&gt;
-const int maxn=500;
-const int maxm=1e5;
-const int INF=0x3f3f3f3f;
-int cur[maxn],head[maxn],to[maxm&lt;&lt;1],nxt[maxm&lt;&lt;1],val[maxm&lt;&lt;1];
-int tot=1;
-int c[maxn],r[maxn];
-int s,t,n,m;
-int dep[maxn];
-struct  Queue
+                <blockquote>
+<p><strong>这是百度百科上的图，线段树定义可以看这里-&gt;<a href="https://baike.baidu.com/item/%E7%BA%BF%E6%AE%B5%E6%A0%91/10983506?fr=aladdin">定义戳我</a></strong><img src="https://gss1.bdstatic.com/-vo3dSag_xI4khGkpoWK1HF6hhy/baike/crop%3D120%2C37%2C1504%2C992%3Bc0%3Dbaike180%2C5%2C5%2C180%2C60/sign=ec67ee96cc5c1038303194828f20a123/0e2442a7d933c895d47476f7db1373f082020037.jpg" alt="线段树图示" loading="lazy"></p>
+</blockquote>
+<p>任何一个区间都能被分成两个小区间，从而能够把对于大区间的查询转换为对几个小区间和小小区间和小小小区间……的查询。<br>
+这是我对线段树的朴素理解，实际上就是一种分治的思想。</p>
+<p>从图上也可以明显地看出任意一个长度大于1的区间都由两个小的子区间组成，子区间再往下分，直到区间内只有一个元素无法再分。<strong>因此，对于每一个长度大于1的区间[l,r]，有mid=(l+r)/2,<br>
+分为左子区间[l,mid]，右子区间[mid+1,r]；且满足二叉树的性质。</strong></p>
+<p>当我们在考虑用线段树解题时，要思考：</p>
+<blockquote>
+<p><strong>1. 是否能分成多个区间；</strong><br>
+<strong>2. 区间是否具有可加性；</strong><br>
+<strong>3. 叶子节点存储什么信息。</strong></p>
+</blockquote>
+<p>有一个小地方需要注意：<br>
+通常线段树底层都不会满，但是它就是要多用那一层<br>
+我们假设线段树底层是满的且叶子数为n（空间利用最优情况）（易证最后一层叶子数等于原数组元素个数），那么显而易见的，叶子总数为<br>
+<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>n</mi><mo>+</mo><mi>n</mi><mi mathvariant="normal">/</mi><mn>2</mn><mo>+</mo><mi>n</mi><mi mathvariant="normal">/</mi><mn>2</mn><mi mathvariant="normal">/</mi><mn>2</mn><mo>…</mo><mo>+</mo><mn>2</mn><mo>+</mo><mn>1</mn><mo>=</mo><mn>2</mn><mi>n</mi><mo>−</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">n+n/2+n/2/2…+2+1=2n-1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.66666em;vertical-align:-0.08333em;"></span><span class="mord mathdefault">n</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault">n</span><span class="mord">/</span><span class="mord">2</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault">n</span><span class="mord">/</span><span class="mord">2</span><span class="mord">/</span><span class="mord">2</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="minner">…</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.72777em;vertical-align:-0.08333em;"></span><span class="mord">2</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">1</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.72777em;vertical-align:-0.08333em;"></span><span class="mord">2</span><span class="mord mathdefault">n</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">1</span></span></span></span><br>
+凡事要往坏的地方多去想想，我们的空间不会运用得那么彻底，那我们还要再加一层防止溢出，这一层的叶子数就为<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mn>2</mn><mi>n</mi></mrow><annotation encoding="application/x-tex">2n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">2</span><span class="mord mathdefault">n</span></span></span></span>。<br>
+加上预留的一层空间，我们给线段树的空间就为<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mn>4</mn><mi>n</mi></mrow><annotation encoding="application/x-tex">4n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">4</span><span class="mord mathdefault">n</span></span></span></span>（舍去了影响较小的-1），这样就能防止因为数组不够大而re了( ´▽｀)</p>
+<p>把基础的线段树掰开来理解，主要有三个部分：</p>
+<ol>
+<li>构建</li>
+<li>修改</li>
+<li>查询</li>
+</ol>
+<h2 id="注以下代码以基础的区间修改和查询区间和的线段树为例">注：以下代码以基础的区间修改和查询区间和的线段树为例</h2>
+<p><a href="https://www.luogu.org/problemnew/show/P3372">模板：p3372线段树1</a></p>
+<h3 id="1-构建">1. 构建：</h3>
+<p>我采用结构体来存储每个区间的信息（这里我用数组，也有指针的写法，看个人喜好）</p>
+<pre><code class="language-cpp">typedef long long ll;
+int a[maxn];
+struct SegmentTree
 {
-	int a[maxn];
-	int l,r;
-	Queue() {l=1,r=0;}
-	void push(int x) {a[++r]=x;}
-	void pop() {l++;}
-	int front() {return a[l];}
-	bool empty() {return l&gt;r;}
-}q;
-
-int min(int x,int y) {return x&lt;y?x:y;}
-void add(int u,int v,int w)
+    int l,r;//l、r分别代表这一区间的左右边界
+    ll dat,add;//dat为存储的信息，add是使用的lazytag（可以理解为修改标记，等下修改的时候要用到，现在可以先不管它）
+    SegmentTree(){add=0;}//先默认不修改
+}t[maxn*4];//maxn通常在函数开头定义，方便修改大小。maxn*4是防止数组越界
+</code></pre>
+<pre><code class="language-cpp">void build(int p, int l, int r)//初始化函数
 {
-	nxt[++tot]=head[u];
-	head[u]=tot;
-	to[tot]=v;
-	val[tot]=w;
-}
-bool bfs()
-{
-	for (int i=1;i&lt;=n+m+1;i++)
-		dep[i]=INF;
-	q=Queue();
-	dep[s]=0;
-	q.push(s);
-	while(!q.empty())
-	{
-		int u=q.front();
-		q.pop();
-		for (int i=head[u];i;i=nxt[i])
-		{
-			int v=to[i];
-			if (val[i]&amp;&amp;dep[v]&gt;dep[u]+1)
-			{
-				dep[v]=dep[u]+1;
-				q.push(v);
-			}
-		}
-	}
-	return dep[t]&lt;INF;
-}
-int dfs(int u,int minf)
-{
-	if (u==t)
-		return minf;
-	int used=0;
-	for (int &amp;i=cur[u];i;i=nxt[i])
-	{
-		int v=to[i];
-		if (val[i]&amp;&amp;dep[v]==dep[u]+1)
-		{
-			int flow=dfs(v, min(minf-used, val[i]));
-			if (flow)
-			{
-				used+=flow;
-				val[i]-=flow;
-				val[i^1]+=flow;
-				if (used==minf)
-					break;
-			}
-		}
-	}
-	return used;
-}
-int main()
-{
-	scanf(&quot;%d%d&quot;,&amp;m,&amp;n);
-	int sum=0;
-	for (int i=1;i&lt;=m;i++)
-		scanf(&quot;%d&quot;,&amp;r[i]),sum+=r[i];
-	for (int i=1;i&lt;=n;i++)
-		scanf(&quot;%d&quot;,&amp;c[i]);
-	for (int i=1;i&lt;=m;i++)
-		for (int j=1;j&lt;=n;j++)
-			add(i, m+j, 1),add(m+j, i, 0);
-
-	s=0,t=n+m+1;
-	for (int i=1;i&lt;=m;i++)
-		add(s, i, r[i]),add(i, s, 0);
-	for (int i=1;i&lt;=n;i++)
-		add(m+i, t, c[i]),add(t, m+i, 0);
-
-	int cnt=0;
-	while(bfs())
-	{
-		for (int i=0;i&lt;=n+m;i++)
-			cur[i]=head[i];
-		cnt+=dfs(s, INF);
-	}
-	if (cnt&lt;sum)
-		printf(&quot;0\n&quot;);
-	else
-	{
-		printf(&quot;1\n&quot;);
-		for (int i=1;i&lt;=m;i++)
-		{
-			for (int j=1;j&lt;=n;j++)
-				if (!val[((i-1)*n+j)&lt;&lt;1])
-					printf(&quot;%d &quot;,j);
-			putchar('\n');
-		}
-	}
-	return 0;
+    //p是当前构造的线段树数组下标，l、r分别为当前构造的点代表的区间的左右边界
+    t[p].l=l;t[p].r=r;//先把边界定好
+    if (l==r){t[p].dat=a[l];return;}
+    //如果l==r说明不能再分，把原数组上的信息存一下，返回
+    int mid=(l+r)&gt;&gt;1;//mid=(l+r)/2
+    build(p*2, l, mid);//构建左子区间
+    build(p*2+1, mid+1, r);//构建右子区间
+    t[p].dat=t[p*2].dat+t[p*2+1].dat;
+    //这是一个求区间和的线段树，所以该区间所存的信息等于两个子区间所存信息之和
 }
 </code></pre>
+<p>当a数组的信息完全输入以后，build（1，1，n）即可<br>
+（n为数组中元素个数）</p>
+<h3 id="2-修改">2. 修改：</h3>
+<p>前面出现了个神奇的<strong>lazy tag</strong>，它的作用是什么呢？</p>
+<p><strong>跟你想的一样，就是用来偷懒的</strong></p>
+<p>首先我们知道，修改带来的影响是对于好几个区间的。如果我们耿直地每一次修改都敬职敬责地改到最小的区间，但是很多修改根本不会被询问到，无疑是吃力不讨好的。当修改特别多的时候就可能超时。这个时候我们就得想办法<s>偷工减料</s>优化了。<br>
+要是你修改了却不用，和不修改是没有区别的。所以我们先把工作攒起来，当查询的时候再去执行~~（本质就是偷工减料嘛（逃~~<br>
+lazy tag的不严谨定义~~（因为是我自己写的）~~：</p>
+<blockquote>
+<p>当lazy tag不为0时，说明当前区间已经被这个影响所作用，这个区间的所有子区间全都攒着工作没有修改</p>
+</blockquote>
+<p>代码</p>
+<pre><code class="language-cpp">void spread(int p)//先看下面那个函数
+{
+    if (t[p].add)//如果当前位置为p的点的下一层要改
+    {
+        t[p*2].dat+=t[p].add*(t[p*2].r-t[p*2].l+1);
+        //修改左子区间（r-l+1得到区间内元素个数，我每一个都要加上从上一层传过来的add的值，那么对于这个区间的影响就是加上【元素个数*add】
+        //注意是+=
+        t[p*2+1].dat+=t[p].add*(t[p*2+1].r-t[p*2+1].l+1);//右子区间同理
+        t[p*2].add+=t[p].add;
+        //把影响给加上，同样要注意+=
+        t[p*2+1].add+=t[p].add;
+        t[p].add=0;//已经把工作传给子区间了，这一层的信息已经是最新的了，消除lazy tag
+    }
+}
+void change(int p, int v, int l, int r)
+{
+//p是需要修改的位置，v是要加上的值，l、r为修改区间边界
+    if (l&lt;=t[p].l&amp;&amp;t[p].r&lt;=r)//如果当前的点区间包含于[l,r]，执行修改并打上lazy tag
+    {
+        t[p].add+=(ll)v;
+        t[p].dat+=(ll)v*(t[p].r-t[p].l+1);
+        return;
+    }
+    spread(p);//将修改向下传，见上一个函数
+    int mid=(t[p].l+t[p].r)&gt;&gt;1;
+    if (l&lt;=mid)change(p*2, v, l, r);//如果l&lt;=mid，说明在左子区间中有地方需要更改
+    if (r&gt;mid)change(p*2+1, v, l, r);
+    //右子区间同理
+    t[p].dat=t[p*2].dat+t[p*2+1].dat;
+    //更新当前信息
+}
+</code></pre>
+<h3 id="3-查询">3. 查询</h3>
+<p>直接上代码吧</p>
+<pre><code class="language-cpp">ll ask(int p, int l, int r)
+{
+    if (l&lt;=t[p].l&amp;&amp;t[p].r&lt;=r)//如果当前区间包含于需要查询的区间，直接征用该区间的信息，返回
+        return t[p].dat;
+    spread(p);//先看看有没有积压的工作要在查询前做了
+    int mid=(t[p].l+t[p].r)&gt;&gt;1;
+    ll val=0;
+    if (l&lt;=mid)val+=ask(p*2, l, r);
+    //如果l&lt;=mid，说明左子区间有地方的信息需要用到
+    if (r&gt;mid)val+=ask(p*2+1, l, r);//同理
+    //因为两边的子区间中都有可能有某个子区间有信息需要征用，所以是两个if
+    return val;
+}
+</code></pre>
+<p>线段树大概就是这样……</p>
+<p>因为个人水平有限，难免有疏漏，欢迎批评指正(=ﾟωﾟ)ﾉ</p>
 
               </div>
               <div class="post-footer">
@@ -633,7 +624,7 @@ int main()
     </li>
     <li class="post-copyright-link">
       <strong>本文链接：</strong>
-      <a href="https://hkr04.github.io/round-table-problem/" title="圆桌问题">圆桌问题</a>
+      <a href="https://hkr04.github.io/segment-tree/" title="线段树入门">线段树入门</a>
     </li>
     <li class="post-copyright-license">
       <strong>版权声明： </strong>
@@ -642,25 +633,21 @@ int main()
   </ul>
   <div class="tags">
     
-      <a href="https://hkr04.github.io/rbBIcRlbH/"># 网络流24题</a>
+      <a href="https://hkr04.github.io/qkZ2mtZDC/"># 线段树</a>
     
-      <a href="https://hkr04.github.io/BHy59ue1j/"># 网络流</a>
+      <a href="https://hkr04.github.io/00iKSZT709/"># 数据结构</a>
     
-      <a href="https://hkr04.github.io/AUx6Qb151/"># 题解</a>
+      <a href="https://hkr04.github.io/rdrsFYwkR/"># 笔记</a>
     
   </div>
   <div class="nav">
     <div class="nav-prev">
       
-        <i class="fa fa-chevron-left"></i>
-        <a class="nav-pc-next" title="飞行员配对方案" href="https://hkr04.github.io/pilots-matching/">飞行员配对方案</a class="nav-pc-next">
-        <a class="nav-mobile-prev" title="飞行员配对方案" href="https://hkr04.github.io/pilots-matching/">上一篇</a>
-      
     </div>
     <div class="nav-next">
       
-        <a class="nav-pc-next" title="最小路径覆盖问题" href="https://hkr04.github.io/the-smallest-path-cover/">最小路径覆盖问题</a>
-        <a class="nav-mobile-next" title="最小路径覆盖问题" href="https://hkr04.github.io/the-smallest-path-cover/">下一篇</a>
+        <a class="nav-pc-next" title="线段树？树状数组！" href="https://hkr04.github.io/fenwick-tree-plus/">线段树？树状数组！</a>
+        <a class="nav-mobile-next" title="线段树？树状数组！" href="https://hkr04.github.io/fenwick-tree-plus/">下一篇</a>
         <i class="fa fa-chevron-right"></i>
       
     </div>
