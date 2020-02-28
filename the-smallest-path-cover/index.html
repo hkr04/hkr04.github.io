@@ -1,0 +1,366 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>最小路径覆盖问题 | hkr04‘s blogs</title>
+<link rel="shortcut icon" href="https://hkr04.github.io/favicon.ico?v=1582895792339">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://hkr04.github.io/styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="最小路径覆盖问题 | hkr04‘s blogs - Atom Feed" href="https://hkr04.github.io/atom.xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+
+
+    <meta name="description" content="题意简述
+给出一个有向图G=(V,E)G=(V,E)G=(V,E)，求出简单路径（你可以理解为一条链）数量最少的覆盖集，使得覆盖集中所有简单路径之间无相交节点，且集合中所有节点集合等于VVV。简单路径可以只包含一个节点。
+题解
+考虑每一个节..." />
+    <meta name="keywords" content="网络流24题,网络流,题解" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+    <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://hkr04.github.io">
+  <img class="avatar" src="https://hkr04.github.io/images/avatar.png?v=1582895792339" alt="">
+  </a>
+  <h1 class="site-title">
+    hkr04‘s blogs
+  </h1>
+  <p class="site-description">
+    撒野奔跑，踩碎迷茫。
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="/" class="menu">
+          首页
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu">
+          归档
+        </a>
+      
+    
+      
+        <a href="/tags" class="menu">
+          标签
+        </a>
+      
+    
+      
+        <a href="/post/about" class="menu">
+          关于
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              最小路径覆盖问题
+            </h2>
+            <div class="post-info">
+              <span>
+                2020-02-28
+              </span>
+              <span>
+                5 min read
+              </span>
+              
+                <a href="https://hkr04.github.io/rbBIcRlbH/" class="post-tag">
+                  # 网络流24题
+                </a>
+              
+                <a href="https://hkr04.github.io/BHy59ue1j/" class="post-tag">
+                  # 网络流
+                </a>
+              
+                <a href="https://hkr04.github.io/AUx6Qb151/" class="post-tag">
+                  # 题解
+                </a>
+              
+            </div>
+            
+            <div class="post-content-wrapper">
+              <div class="post-content">
+                <h4 id="题意简述">题意简述</h4>
+<p>给出一个有向图<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>G</mi><mo>=</mo><mo>(</mo><mi>V</mi><mo separator="true">,</mo><mi>E</mi><mo>)</mo></mrow><annotation encoding="application/x-tex">G=(V,E)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault">G</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathdefault" style="margin-right:0.22222em;">V</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault" style="margin-right:0.05764em;">E</span><span class="mclose">)</span></span></span></span>，求出简单路径（你可以理解为一条链）数量最少的覆盖集，使得覆盖集中所有简单路径之间无相交节点，且集合中所有节点集合等于<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>V</mi></mrow><annotation encoding="application/x-tex">V</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.22222em;">V</span></span></span></span>。简单路径可以只包含一个节点。</p>
+<h4 id="题解">题解</h4>
+<p>考虑每一个节点处在简单路径中存在两个状态：前驱和后继。由这两个状态可唯一地确定一条经过该节点的简单路径。且只要满足前驱和后继都是唯一的，那么所有的简单路径之间都不会相交。</p>
+<p>所以考虑将一个节点<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>u</mi></mrow><annotation encoding="application/x-tex">u</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathdefault">u</span></span></span></span>拆分成<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>u</mi></mrow><annotation encoding="application/x-tex">u</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathdefault">u</span></span></span></span>和<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msup><mi>u</mi><mo mathvariant="normal">′</mo></msup></mrow><annotation encoding="application/x-tex">u&#x27;</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.751892em;vertical-align:0em;"></span><span class="mord"><span class="mord mathdefault">u</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.751892em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span></span></span></span></span></span></span></span>，对于边<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mo>(</mo><mi>u</mi><mo separator="true">,</mo><mi>v</mi><mo>)</mo></mrow><annotation encoding="application/x-tex">(u, v)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathdefault">u</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault" style="margin-right:0.03588em;">v</span><span class="mclose">)</span></span></span></span>，由<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>u</mi></mrow><annotation encoding="application/x-tex">u</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathdefault">u</span></span></span></span>向<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msup><mi>v</mi><mo mathvariant="normal">′</mo></msup></mrow><annotation encoding="application/x-tex">v&#x27;</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.751892em;vertical-align:0em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.03588em;">v</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.751892em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span></span></span></span></span></span></span></span>连边。这样一来，若<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>u</mi></mrow><annotation encoding="application/x-tex">u</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathdefault">u</span></span></span></span>选择了<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msup><mi>v</mi><mo mathvariant="normal">′</mo></msup></mrow><annotation encoding="application/x-tex">v&#x27;</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.751892em;vertical-align:0em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.03588em;">v</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.751892em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span></span></span></span></span></span></span></span>，则说明<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>u</mi></mrow><annotation encoding="application/x-tex">u</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathdefault">u</span></span></span></span>的后继是<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>v</mi></mrow><annotation encoding="application/x-tex">v</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.03588em;">v</span></span></span></span>；若<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msup><mi>u</mi><mo mathvariant="normal">′</mo></msup></mrow><annotation encoding="application/x-tex">u&#x27;</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.751892em;vertical-align:0em;"></span><span class="mord"><span class="mord mathdefault">u</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.751892em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span></span></span></span></span></span></span></span>被<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>v</mi></mrow><annotation encoding="application/x-tex">v</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.03588em;">v</span></span></span></span>选择，说明<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>u</mi></mrow><annotation encoding="application/x-tex">u</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathdefault">u</span></span></span></span>的前驱是<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>v</mi></mrow><annotation encoding="application/x-tex">v</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.03588em;">v</span></span></span></span>。如此一来，该题就转化成了二分图匹配问题。</p>
+<p>假设一开始我所拥有的覆盖集为所有的单独节点构成的简单路径，若我能成功地增加一个匹配，那么简单路径的数量就会减一。所以，只要求出了最大二分图匹配数，假设为<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>x</mi></mrow><annotation encoding="application/x-tex">x</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathdefault">x</span></span></span></span>，点数为<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>n</mi></mrow><annotation encoding="application/x-tex">n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathdefault">n</span></span></span></span>，那么最小覆盖集的元素个数即为<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>n</mi><mo>−</mo><mi>x</mi></mrow><annotation encoding="application/x-tex">n-x</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.66666em;vertical-align:-0.08333em;"></span><span class="mord mathdefault">n</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathdefault">x</span></span></span></span>。</p>
+<p>方案的求解大致就是这样：</p>
+<ol>
+<li>找到一个没有前驱的节点；</li>
+<li>向后继走，走到没有后继为止。</li>
+</ol>
+<h4 id="代码">代码</h4>
+<pre><code class="language-cpp">#include &lt;cstdio&gt;
+#include &lt;cstring&gt;
+const int maxn=300+10;
+const int maxm=10000+10;
+const int INF=0x3f3f3f3f;
+int cur[maxn],head[maxn],to[maxm&lt;&lt;1],nxt[maxm&lt;&lt;1],val[maxm&lt;&lt;1];
+int tot=1;
+int n,m;
+int s,t;
+int dep[maxn];
+int l[maxn],r[maxn];
+struct Queue
+{
+	int a[maxn];
+	int l,r;
+	Queue() {l=1,r=0;}
+	void push(int x) {a[++r]=x;}
+	void pop() {l++;}
+	int front() {return a[l];}
+	bool empty() {return l&gt;r;}
+}q;
+
+int min(int x,int y) {return x&lt;y?x:y;}
+void add(int u,int v,int w)
+{
+	nxt[++tot]=head[u];
+	head[u]=tot;
+	to[tot]=v;
+	val[tot]=w;
+}
+bool bfs()
+{
+	memset(dep, 0x3f, sizeof(dep));
+	dep[s]=0;
+	q=Queue();
+	q.push(s);
+	while(!q.empty())
+	{
+		int u=q.front();
+		q.pop();
+		for (int i=head[u];i;i=nxt[i])
+		{
+			int v=to[i];
+			if (val[i]&gt;0&amp;&amp;dep[v]&gt;dep[u]+1)
+			{
+				dep[v]=dep[u]+1;
+				q.push(v);
+			}
+		}
+	}
+	return dep[t]!=INF;
+}
+int dfs(int u,int minf)
+{
+	if (u==t)
+		return minf;
+
+	int used=0;
+	for (int &amp;i=cur[u];i;i=nxt[i])
+	{
+		int v=to[i];
+		if (val[i]&gt;0&amp;&amp;dep[v]==dep[u]+1)
+		{
+			int flow=dfs(v, min(minf-used, val[i]));
+			if (flow)
+			{
+				used+=flow;
+				val[i]-=flow;
+				val[i^1]+=flow;
+				if (used==minf)
+					break;
+			}
+		}
+	}
+	return used;
+}
+int main()
+{	
+	scanf(&quot;%d%d&quot;,&amp;n,&amp;m);
+
+	for (int i=1;i&lt;=m;i++)
+	{
+		int u,v;
+		scanf(&quot;%d%d&quot;,&amp;u,&amp;v);
+		add(u, n+v, 1),add(n+v, u, 0);
+	}
+	s=0,t=2*n+1;
+	for (int i=1;i&lt;=n;i++)
+	{
+		add(s, i, 1),add(i, s, 0);
+		add(n+i, t, 1),add(t, n+i, 0);
+	}
+
+	int ans=0;
+	while(bfs())
+	{
+		for (int i=s;i&lt;=t;i++)
+			cur[i]=head[i];
+		ans+=dfs(s, INF);
+	}
+
+	for (int u=1;u&lt;=n;u++)
+		for (int i=head[u];i;i=nxt[i])
+		{
+			if (val[i])
+				continue;
+			int v=to[i];
+			if (v!=s)
+			{
+				r[u]=v-n;
+				l[v-n]=u;
+				break;
+			}
+		}
+
+	for (int i=1;i&lt;=n;i++)
+		if (!l[i])
+		{
+			int u=r[i];
+			printf(&quot;%d&quot;,i);
+			while(u)
+			{
+				printf(&quot; %d&quot;,u);
+				u=r[u];
+			}
+			putchar('\n');
+		}
+
+	printf(&quot;%d\n&quot;,n-ans);
+	return 0;
+}
+</code></pre>
+
+              </div>
+              <div class="toc-container">
+                <ul class="markdownIt-TOC">
+<li>
+<ul>
+<li>
+<ul>
+<li>
+<ul>
+<li><a href="#%E9%A2%98%E6%84%8F%E7%AE%80%E8%BF%B0">题意简述</a></li>
+<li><a href="#%E9%A2%98%E8%A7%A3">题解</a></li>
+<li><a href="#%E4%BB%A3%E7%A0%81">代码</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+              </div>
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://hkr04.github.io/magic-balls-problem/">
+              <h3 class="post-title">
+                魔术球问题
+              </h3>
+            </a>
+          </div>
+        
+
+        
+          
+            <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+
+<div id="gitalk-container"></div>
+
+<script>
+
+  var gitalk = new Gitalk({
+    clientID: '',
+    clientSecret: '',
+    repo: '',
+    owner: '',
+    admin: [''],
+    id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+    distractionFreeMode: false  // Facebook-like distraction free mode
+  })
+
+  gitalk.render('gitalk-container')
+
+</script>
+
+          
+
+          
+        
+
+        <div class="site-footer">
+  Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>
+  <a class="rss" href="https://hkr04.github.io/atom.xml" target="_blank">
+    <i class="ri-rss-line"></i> RSS
+  </a>
+</div>
+
+      </div>
+    </div>
+
+    <script>
+      hljs.initHighlightingOnLoad()
+
+      let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+      // This should probably be throttled.
+      // Especially because it triggers during smooth scrolling.
+      // https://lodash.com/docs/4.17.10#throttle
+      // You could do like...
+      // window.addEventListener("scroll", () => {
+      //    _.throttle(doThatStuff, 100);
+      // });
+      // Only not doing it here to keep this Pen dependency-free.
+
+      window.addEventListener("scroll", event => {
+        let fromTop = window.scrollY;
+
+        mainNavLinks.forEach((link, index) => {
+          let section = document.getElementById(decodeURI(link.hash).substring(1));
+          let nextSection = null
+          if (mainNavLinks[index + 1]) {
+            nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+          }
+          if (section.offsetTop <= fromTop) {
+            if (nextSection) {
+              if (nextSection.offsetTop > fromTop) {
+                link.classList.add("current");
+              } else {
+                link.classList.remove("current");    
+              }
+            } else {
+              link.classList.add("current");
+            }
+          } else {
+            link.classList.remove("current");
+          }
+        });
+      });
+
+    </script>
+  </body>
+</html>

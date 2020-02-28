@@ -1000,11 +1000,15 @@ td {
         background: #f8f9fa;
       }
     
+      body {
+        color: #495057;
+      }
+    
       a {
-        color: #ff8787;
+        color: #fa5252;
       }
     
       a:hover {
-        color: #5f3dc4;
+        color: #c2255c;
       }
     

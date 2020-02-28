@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://hkr04.github.io</id>
     <title>hkr04‘s blogs</title>
-    <updated>2020-02-28T13:14:15.417Z</updated>
+    <updated>2020-02-28T13:16:57.990Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://hkr04.github.io"/>
     <link rel="self" href="https://hkr04.github.io/atom.xml"/>
@@ -12,30 +12,573 @@
     <rights>All rights reserved 2020, hkr04‘s blogs</rights>
     <entry>
         <title type="html"><![CDATA[飞行员配对方案]]></title>
-        <id>https://hkr04.github.io/post/pilots-matching/</id>
-        <link href="https://hkr04.github.io/post/pilots-matching/">
+        <id>https://hkr04.github.io/pilots-matching/</id>
+        <link href="https://hkr04.github.io/pilots-matching/">
         </link>
         <updated>2020-02-28T09:18:51.000Z</updated>
+        <content type="html"><![CDATA[<h4 id="题解">题解</h4>
+<p>二分图匹配。<br>
+设一个超级源点和一个超级汇点，建立源点-&gt;外籍飞行员-&gt;英国飞行员-&gt;汇点的网络。所有边的容量设为1。此时，每单位流到汇点的流量即代表一对合法配对，配对间互不干扰。</p>
+<p>所以跑最大流即可得到最大匹配数。若想得到谁和谁配对的方案，则看看哪条边流量为0即可。</p>
+<h4 id="代码">代码</h4>
+<pre><code class="language-cpp">#include &lt;cstdio&gt;
+#include &lt;cstring&gt;
+const int maxn=200+10;
+const int maxm=10000+10;
+const int INF=0x3f3f3f3f; 
+int cur[maxn],head[maxn],nxt[maxm&lt;&lt;1],to[maxm&lt;&lt;1],val[maxm&lt;&lt;1];
+int dep[maxn];
+int n,m,s,t;
+int tot=1,cnt=0;
+struct edge
+{
+    int u,v;
+    edge() {}
+    edge(int x,int y) {u=x,v=y;}
+}e[maxm];
+struct Queue
+{
+	int a[maxn];
+	int l,r;
+	Queue() {l=1,r=0;}
+	void push(int x) {a[++r]=x;}
+	void pop() {l++;}
+	int front() {return a[l];}
+	bool empty() {return l&gt;r;}
+}q;
+
+inline int min(int x,int y) {return x&lt;y?x:y;}
+void add(int u,int v,int w)
+{
+    nxt[++tot]=head[u];
+    head[u]=tot;
+    to[tot]=v;
+    val[tot]=w;
+}
+bool bfs()
+{
+    memset(dep, 0x3f, sizeof(dep));
+    dep[s]=0;
+    q=Queue();
+    q.push(s);
+    while(!q.empty())
+    {
+        int u=q.front();
+        q.pop();
+        for (int i=head[u];i;i=nxt[i])
+        {
+            int v=to[i]; 
+            if (val[i]&amp;&amp;dep[v]&gt;dep[u]+1)
+            {
+                dep[v]=dep[u]+1;
+                q.push(v);
+            }
+        } 
+    }
+    return dep[t]&lt;INF;
+}
+int dfs(int u,int minf)
+{
+    if (u==t)
+        return minf;
+    int used=0;
+    for (int &amp;i=cur[u];i;i=nxt[i])
+    {
+        int v=to[i];
+        if (val[i]&amp;&amp;dep[v]==dep[u]+1)
+        {
+        	int flow=dfs(v, min(minf-used, val[i]));
+            if (flow)
+            {
+                used+=flow;
+                val[i]-=flow;
+                val[i^1]+=flow;
+                if (used==minf)
+                    break; 
+            }
+        }
+     }
+     return used; 
+}
+int main()
+{
+    scanf(&quot;%d%d&quot;,&amp;m,&amp;n);
+    s=0,t=m+n+1;
+    int u=-1,v=-1;
+    while(scanf(&quot;%d%d&quot;,&amp;u,&amp;v)&amp;&amp;u!=-1) 
+    {
+        add(u, v, 1),add(v, u, 0);
+        e[++cnt]=edge(u, v);
+    }
+    for (int i=1;i&lt;=m;i++)
+        add(s, i, 1),add(i, s, 0);
+    for (int i=m+1;i&lt;=m+n;i++)
+        add(i, t, 1),add(t, i, 0);
+
+    int maxflow=0; 
+    while(bfs())
+    {
+    	for (int i=0;i&lt;=m+n;i++)
+    		cur[i]=head[i];
+    	maxflow+=dfs(s, INF);
+    }
+    printf(&quot;%d\n&quot;,maxflow);
+    for (int i=1;i&lt;=cnt;i++)
+        if (!val[i&lt;&lt;1])
+            printf(&quot;%d %d\n&quot;,e[i].u,e[i].v);
+    return 0;
+}
+</code></pre>
+]]></content>
     </entry>
     <entry>
         <title type="html"><![CDATA[圆桌问题]]></title>
-        <id>https://hkr04.github.io/post/round-table-problem/</id>
-        <link href="https://hkr04.github.io/post/round-table-problem/">
+        <id>https://hkr04.github.io/round-table-problem/</id>
+        <link href="https://hkr04.github.io/round-table-problem/">
         </link>
         <updated>2020-02-28T09:14:48.000Z</updated>
+        <content type="html"><![CDATA[<h4 id="题解">题解</h4>
+<p>建立超级源超级汇，建立<strong>源点-&gt;国际单位-&gt;圆桌-&gt;汇点</strong>的网络。其中，源点连边容量为<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>r</mi><mi>i</mi></msub></mrow><annotation encoding="application/x-tex">r_i</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.58056em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.02778em;">r</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:-0.02778em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>（INF也可以，反正限制主要是后面），国际单位连边容量为1，圆桌连边容量为<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>c</mi><mi>i</mi></msub></mrow><annotation encoding="application/x-tex">c_i</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.58056em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault">c</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>。跑出最大流即可得到最大匹配，与人数总数相比较即可知道是否有合法方案。方案统计只需对每个单位查询有哪些边的流量不为0即可。</p>
+<p>有一个小技巧是，先连<strong>国际单位-&gt;圆桌</strong>，后面统计时，查验边是否流量不为0的顺序就和存边时相等。由于同时存正反边（编号从2开始），第<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>i</mi></mrow><annotation encoding="application/x-tex">i</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.65952em;vertical-align:0em;"></span><span class="mord mathdefault">i</span></span></span></span>个单位和第<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>j</mi></mrow><annotation encoding="application/x-tex">j</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.85396em;vertical-align:-0.19444em;"></span><span class="mord mathdefault" style="margin-right:0.05724em;">j</span></span></span></span>个圆桌之间的边的编号即为<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mo>(</mo><mo>(</mo><mi>i</mi><mo>−</mo><mn>1</mn><mo>)</mo><mo>×</mo><mi>n</mi><mo>+</mo><mi>j</mi><mo>)</mo><mo>×</mo><mn>2</mn></mrow><annotation encoding="application/x-tex">((i-1)\times n+j)\times 2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mopen">(</span><span class="mord mathdefault">i</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">1</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.66666em;vertical-align:-0.08333em;"></span><span class="mord mathdefault">n</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.05724em;">j</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">2</span></span></span></span>。</p>
+<h4 id="代码">代码</h4>
+<pre><code class="language-cpp">#include &lt;cstdio&gt;
+const int maxn=500;
+const int maxm=1e5;
+const int INF=0x3f3f3f3f;
+int cur[maxn],head[maxn],to[maxm&lt;&lt;1],nxt[maxm&lt;&lt;1],val[maxm&lt;&lt;1];
+int tot=1;
+int c[maxn],r[maxn];
+int s,t,n,m;
+int dep[maxn];
+struct  Queue
+{
+	int a[maxn];
+	int l,r;
+	Queue() {l=1,r=0;}
+	void push(int x) {a[++r]=x;}
+	void pop() {l++;}
+	int front() {return a[l];}
+	bool empty() {return l&gt;r;}
+}q;
+
+int min(int x,int y) {return x&lt;y?x:y;}
+void add(int u,int v,int w)
+{
+	nxt[++tot]=head[u];
+	head[u]=tot;
+	to[tot]=v;
+	val[tot]=w;
+}
+bool bfs()
+{
+	for (int i=1;i&lt;=n+m+1;i++)
+		dep[i]=INF;
+	q=Queue();
+	dep[s]=0;
+	q.push(s);
+	while(!q.empty())
+	{
+		int u=q.front();
+		q.pop();
+		for (int i=head[u];i;i=nxt[i])
+		{
+			int v=to[i];
+			if (val[i]&amp;&amp;dep[v]&gt;dep[u]+1)
+			{
+				dep[v]=dep[u]+1;
+				q.push(v);
+			}
+		}
+	}
+	return dep[t]&lt;INF;
+}
+int dfs(int u,int minf)
+{
+	if (u==t)
+		return minf;
+	int used=0;
+	for (int &amp;i=cur[u];i;i=nxt[i])
+	{
+		int v=to[i];
+		if (val[i]&amp;&amp;dep[v]==dep[u]+1)
+		{
+			int flow=dfs(v, min(minf-used, val[i]));
+			if (flow)
+			{
+				used+=flow;
+				val[i]-=flow;
+				val[i^1]+=flow;
+				if (used==minf)
+					break;
+			}
+		}
+	}
+	return used;
+}
+int main()
+{
+	scanf(&quot;%d%d&quot;,&amp;m,&amp;n);
+	int sum=0;
+	for (int i=1;i&lt;=m;i++)
+		scanf(&quot;%d&quot;,&amp;r[i]),sum+=r[i];
+	for (int i=1;i&lt;=n;i++)
+		scanf(&quot;%d&quot;,&amp;c[i]);
+	for (int i=1;i&lt;=m;i++)
+		for (int j=1;j&lt;=n;j++)
+			add(i, m+j, 1),add(m+j, i, 0);
+
+	s=0,t=n+m+1;
+	for (int i=1;i&lt;=m;i++)
+		add(s, i, r[i]),add(i, s, 0);
+	for (int i=1;i&lt;=n;i++)
+		add(m+i, t, c[i]),add(t, m+i, 0);
+
+	int cnt=0;
+	while(bfs())
+	{
+		for (int i=0;i&lt;=n+m;i++)
+			cur[i]=head[i];
+		cnt+=dfs(s, INF);
+	}
+	if (cnt&lt;sum)
+		printf(&quot;0\n&quot;);
+	else
+	{
+		printf(&quot;1\n&quot;);
+		for (int i=1;i&lt;=m;i++)
+		{
+			for (int j=1;j&lt;=n;j++)
+				if (!val[((i-1)*n+j)&lt;&lt;1])
+					printf(&quot;%d &quot;,j);
+			putchar('\n');
+		}
+	}
+	return 0;
+}
+</code></pre>
+]]></content>
     </entry>
     <entry>
         <title type="html"><![CDATA[最小路径覆盖问题]]></title>
-        <id>https://hkr04.github.io/post/the-smallest-path-cover/</id>
-        <link href="https://hkr04.github.io/post/the-smallest-path-cover/">
+        <id>https://hkr04.github.io/the-smallest-path-cover/</id>
+        <link href="https://hkr04.github.io/the-smallest-path-cover/">
         </link>
         <updated>2020-02-28T09:09:13.000Z</updated>
+        <content type="html"><![CDATA[<h4 id="题意简述">题意简述</h4>
+<p>给出一个有向图<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>G</mi><mo>=</mo><mo>(</mo><mi>V</mi><mo separator="true">,</mo><mi>E</mi><mo>)</mo></mrow><annotation encoding="application/x-tex">G=(V,E)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault">G</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathdefault" style="margin-right:0.22222em;">V</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault" style="margin-right:0.05764em;">E</span><span class="mclose">)</span></span></span></span>，求出简单路径（你可以理解为一条链）数量最少的覆盖集，使得覆盖集中所有简单路径之间无相交节点，且集合中所有节点集合等于<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>V</mi></mrow><annotation encoding="application/x-tex">V</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.22222em;">V</span></span></span></span>。简单路径可以只包含一个节点。</p>
+<h4 id="题解">题解</h4>
+<p>考虑每一个节点处在简单路径中存在两个状态：前驱和后继。由这两个状态可唯一地确定一条经过该节点的简单路径。且只要满足前驱和后继都是唯一的，那么所有的简单路径之间都不会相交。</p>
+<p>所以考虑将一个节点<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>u</mi></mrow><annotation encoding="application/x-tex">u</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathdefault">u</span></span></span></span>拆分成<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>u</mi></mrow><annotation encoding="application/x-tex">u</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathdefault">u</span></span></span></span>和<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msup><mi>u</mi><mo mathvariant="normal">′</mo></msup></mrow><annotation encoding="application/x-tex">u&#x27;</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.751892em;vertical-align:0em;"></span><span class="mord"><span class="mord mathdefault">u</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.751892em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span></span></span></span></span></span></span></span>，对于边<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mo>(</mo><mi>u</mi><mo separator="true">,</mo><mi>v</mi><mo>)</mo></mrow><annotation encoding="application/x-tex">(u, v)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathdefault">u</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault" style="margin-right:0.03588em;">v</span><span class="mclose">)</span></span></span></span>，由<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>u</mi></mrow><annotation encoding="application/x-tex">u</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathdefault">u</span></span></span></span>向<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msup><mi>v</mi><mo mathvariant="normal">′</mo></msup></mrow><annotation encoding="application/x-tex">v&#x27;</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.751892em;vertical-align:0em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.03588em;">v</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.751892em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span></span></span></span></span></span></span></span>连边。这样一来，若<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>u</mi></mrow><annotation encoding="application/x-tex">u</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathdefault">u</span></span></span></span>选择了<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msup><mi>v</mi><mo mathvariant="normal">′</mo></msup></mrow><annotation encoding="application/x-tex">v&#x27;</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.751892em;vertical-align:0em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.03588em;">v</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.751892em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span></span></span></span></span></span></span></span>，则说明<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>u</mi></mrow><annotation encoding="application/x-tex">u</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathdefault">u</span></span></span></span>的后继是<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>v</mi></mrow><annotation encoding="application/x-tex">v</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.03588em;">v</span></span></span></span>；若<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msup><mi>u</mi><mo mathvariant="normal">′</mo></msup></mrow><annotation encoding="application/x-tex">u&#x27;</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.751892em;vertical-align:0em;"></span><span class="mord"><span class="mord mathdefault">u</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.751892em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span></span></span></span></span></span></span></span>被<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>v</mi></mrow><annotation encoding="application/x-tex">v</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.03588em;">v</span></span></span></span>选择，说明<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>u</mi></mrow><annotation encoding="application/x-tex">u</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathdefault">u</span></span></span></span>的前驱是<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>v</mi></mrow><annotation encoding="application/x-tex">v</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.03588em;">v</span></span></span></span>。如此一来，该题就转化成了二分图匹配问题。</p>
+<p>假设一开始我所拥有的覆盖集为所有的单独节点构成的简单路径，若我能成功地增加一个匹配，那么简单路径的数量就会减一。所以，只要求出了最大二分图匹配数，假设为<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>x</mi></mrow><annotation encoding="application/x-tex">x</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathdefault">x</span></span></span></span>，点数为<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>n</mi></mrow><annotation encoding="application/x-tex">n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathdefault">n</span></span></span></span>，那么最小覆盖集的元素个数即为<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>n</mi><mo>−</mo><mi>x</mi></mrow><annotation encoding="application/x-tex">n-x</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.66666em;vertical-align:-0.08333em;"></span><span class="mord mathdefault">n</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathdefault">x</span></span></span></span>。</p>
+<p>方案的求解大致就是这样：</p>
+<ol>
+<li>找到一个没有前驱的节点；</li>
+<li>向后继走，走到没有后继为止。</li>
+</ol>
+<h4 id="代码">代码</h4>
+<pre><code class="language-cpp">#include &lt;cstdio&gt;
+#include &lt;cstring&gt;
+const int maxn=300+10;
+const int maxm=10000+10;
+const int INF=0x3f3f3f3f;
+int cur[maxn],head[maxn],to[maxm&lt;&lt;1],nxt[maxm&lt;&lt;1],val[maxm&lt;&lt;1];
+int tot=1;
+int n,m;
+int s,t;
+int dep[maxn];
+int l[maxn],r[maxn];
+struct Queue
+{
+	int a[maxn];
+	int l,r;
+	Queue() {l=1,r=0;}
+	void push(int x) {a[++r]=x;}
+	void pop() {l++;}
+	int front() {return a[l];}
+	bool empty() {return l&gt;r;}
+}q;
+
+int min(int x,int y) {return x&lt;y?x:y;}
+void add(int u,int v,int w)
+{
+	nxt[++tot]=head[u];
+	head[u]=tot;
+	to[tot]=v;
+	val[tot]=w;
+}
+bool bfs()
+{
+	memset(dep, 0x3f, sizeof(dep));
+	dep[s]=0;
+	q=Queue();
+	q.push(s);
+	while(!q.empty())
+	{
+		int u=q.front();
+		q.pop();
+		for (int i=head[u];i;i=nxt[i])
+		{
+			int v=to[i];
+			if (val[i]&gt;0&amp;&amp;dep[v]&gt;dep[u]+1)
+			{
+				dep[v]=dep[u]+1;
+				q.push(v);
+			}
+		}
+	}
+	return dep[t]!=INF;
+}
+int dfs(int u,int minf)
+{
+	if (u==t)
+		return minf;
+
+	int used=0;
+	for (int &amp;i=cur[u];i;i=nxt[i])
+	{
+		int v=to[i];
+		if (val[i]&gt;0&amp;&amp;dep[v]==dep[u]+1)
+		{
+			int flow=dfs(v, min(minf-used, val[i]));
+			if (flow)
+			{
+				used+=flow;
+				val[i]-=flow;
+				val[i^1]+=flow;
+				if (used==minf)
+					break;
+			}
+		}
+	}
+	return used;
+}
+int main()
+{	
+	scanf(&quot;%d%d&quot;,&amp;n,&amp;m);
+
+	for (int i=1;i&lt;=m;i++)
+	{
+		int u,v;
+		scanf(&quot;%d%d&quot;,&amp;u,&amp;v);
+		add(u, n+v, 1),add(n+v, u, 0);
+	}
+	s=0,t=2*n+1;
+	for (int i=1;i&lt;=n;i++)
+	{
+		add(s, i, 1),add(i, s, 0);
+		add(n+i, t, 1),add(t, n+i, 0);
+	}
+
+	int ans=0;
+	while(bfs())
+	{
+		for (int i=s;i&lt;=t;i++)
+			cur[i]=head[i];
+		ans+=dfs(s, INF);
+	}
+
+	for (int u=1;u&lt;=n;u++)
+		for (int i=head[u];i;i=nxt[i])
+		{
+			if (val[i])
+				continue;
+			int v=to[i];
+			if (v!=s)
+			{
+				r[u]=v-n;
+				l[v-n]=u;
+				break;
+			}
+		}
+
+	for (int i=1;i&lt;=n;i++)
+		if (!l[i])
+		{
+			int u=r[i];
+			printf(&quot;%d&quot;,i);
+			while(u)
+			{
+				printf(&quot; %d&quot;,u);
+				u=r[u];
+			}
+			putchar('\n');
+		}
+
+	printf(&quot;%d\n&quot;,n-ans);
+	return 0;
+}
+</code></pre>
+]]></content>
     </entry>
     <entry>
         <title type="html"><![CDATA[魔术球问题]]></title>
-        <id>https://hkr04.github.io/post/magic-balls-problem/</id>
-        <link href="https://hkr04.github.io/post/magic-balls-problem/">
+        <id>https://hkr04.github.io/magic-balls-problem/</id>
+        <link href="https://hkr04.github.io/magic-balls-problem/">
         </link>
         <updated>2020-02-28T09:01:03.000Z</updated>
+        <content type="html"><![CDATA[<h4 id="题意简述">题意简述</h4>
+<p>题目希望我们在<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>n</mi></mrow><annotation encoding="application/x-tex">n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathdefault">n</span></span></span></span>个柱子放上最多的球，并且要求相邻的球之间满足相加为完全平方数的条件。</p>
+<h4 id="题解">题解</h4>
+<p>较显然的一点是，对于递增的<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>n</mi></mrow><annotation encoding="application/x-tex">n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathdefault">n</span></span></span></span>来说，其所能放的最多球的数量一定是单调上升的。因为新增加的柱子至少可以比前一个的最大方案多放一个。同时，如果编号为<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>x</mi></mrow><annotation encoding="application/x-tex">x</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathdefault">x</span></span></span></span>的球已经找不到放下的方案，根据题目要求，大于<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>x</mi></mrow><annotation encoding="application/x-tex">x</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathdefault">x</span></span></span></span>的球数也一定是不合法的。</p>
+<p>再从另一个角度考虑，球数增加时所需要的最少柱子数量也是单调不增的。于是就可以将这题转化为<strong>求最大的球数，使得其最小覆盖恰不大于n</strong>。如果你还没有做过最小覆盖相关的题目，简单来说，就是你需要把一些元素分成互不相交的集合，且使得集合数最小。参考<a href="https://hkr04.github.io/post/the-smallest-path-cover/">最小路径覆盖问题</a>，这两者的建模方式是类似的，在本题中每尝试增加一个球就让它尝试和之前的球连边即可。<br>
+这题就这么解决啦，关键的地方在于找出单调性和由最大转化为最小可行问题。</p>
+<p>（关于球的枚举上界问题，可以先设一个较大的值再跑一下极限数据看看）</p>
+<h4 id="代码">代码</h4>
+<pre><code class="language-cpp">#include &lt;cstdio&gt;
+#include &lt;cstring&gt;
+#include &lt;cmath&gt;
+const int maxn=8000;
+const int maxm=5e5+10;
+const int INF=0x3f3f3f3f;
+const double eps=1e-6;
+int cur[maxn],head[maxn],to[maxm],nxt[maxm],val[maxm];
+int tot=1;
+int n,s,t;
+int dep[maxn],l[maxn],r[maxn];
+struct Queue
+{
+	int a[maxn];
+	int l,r;
+	Queue() {l=1,r=0;}
+	void push(int x) {a[++r]=x;}
+	void pop() {l++;}
+	int front() {return a[l];}
+	bool empty() {return l&gt;r;}
+}q;
+
+int min(int x,int y) {return x&lt;y?x:y;}
+bool check(int x,int y)
+{
+	double tmp=sqrt(x+y);
+	return tmp-(int)tmp&lt;eps;
+}
+void add(int u,int v,int w)
+{
+	nxt[++tot]=head[u];
+	head[u]=tot;
+	to[tot]=v;
+	val[tot]=w;
+}
+void cancel()
+{
+	int u=to[tot],v=to[tot^1];
+	head[u]=nxt[head[u]];
+	head[v]=nxt[head[v]];
+	tot-=2;
+}
+bool bfs()
+{
+	memset(dep, 0x3f, sizeof(dep));
+	dep[s]=0;
+	q=Queue();
+	q.push(s);
+	while(!q.empty())
+	{
+		int u=q.front();
+		q.pop();
+		for (int i=head[u];i;i=nxt[i])
+		{
+			int v=to[i];
+			if (val[i]&gt;0&amp;&amp;dep[v]&gt;dep[u]+1)
+			{
+				dep[v]=dep[u]+1;
+				q.push(v);
+			}
+		}
+	}
+	return dep[t]!=INF;
+}
+int dfs(int u,int minf)
+{
+	if (u==t)
+		return minf;
+	
+	int used=0;
+	for (int &amp;i=cur[u];i;i=nxt[i])
+	{
+		int v=to[i];
+		if (val[i]&gt;0&amp;&amp;dep[v]==dep[u]+1)
+		{
+			int flow=dfs(v, min(minf-used, val[i]));
+			if (flow)
+			{
+				used+=flow;
+				val[i]-=flow;
+				val[i^1]+=flow;
+				if (used==minf)
+					break;
+			}
+		}
+	}
+	return used;
+}
+int main()
+{
+	scanf(&quot;%d&quot;,&amp;n);
+	int lim=n*n;
+	s=0,t=lim*2+1;
+	int v;
+	int pre_tot=1;
+	for (v=1;v&lt;=lim;v++)
+	{
+		for (int i=2;i&lt;=tot;i++)
+			val[i]=i&amp;1?0:1;
+		add(s, v, 1),add(v, s, 0);
+		add(v+lim, t, 1),add(t, v+lim, 0);
+		for (int u=v-1;u&gt;=1;u--)
+			if (check(u, v))
+				add(u, v+lim, 1),add(v+lim, u, 0);
+
+		int ans=0;
+		while(bfs())
+		{
+			for (int i=s;i&lt;=v+lim;i++)
+				cur[i]=head[i];
+			ans+=dfs(s, INF);
+		}
+		if (v-ans&gt;n)
+		{
+			v--;
+			break;
+		}
+		pre_tot=tot;
+	}
+
+	while(tot&gt;pre_tot)
+		cancel();
+	for (int i=2;i&lt;=tot;i++)
+		val[i]=i&amp;1?0:1;
+	
+	while(bfs())
+	{
+		for (int i=s;i&lt;=v+lim;i++)
+			cur[i]=head[i];
+		dfs(s, INF);
+	}
+
+	for (int u=1;u&lt;=v;u++)
+		for (int i=head[u];i;i=nxt[i])
+		{
+			if (!val[i]&amp;&amp;to[i]!=s)
+				r[u]=to[i]-lim,l[to[i]-lim]=u;
+		}
+
+	printf(&quot;%d\n&quot;,v);
+	for (int i=1;i&lt;=v;i++)
+	{
+		if (l[i])
+			continue;
+		int u=i;
+		while(u)
+		{
+			printf(&quot;%d &quot;,u);
+			u=r[u];
+		}
+		putchar('\n');
+	}
+	return 0;
+}
+</code></pre>
+]]></content>
     </entry>
 </feed>
