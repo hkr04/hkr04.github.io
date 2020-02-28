@@ -1960,30 +1960,37 @@ body {
     .nav-item:hover {
       background: #868e96;
       color: rgba(0, 0, 0, 0.98);
-    }.markdownIt-TOC a {
-      color: #eee;
-      border-bottom-color: #eee;
+    }.pisces .blog-header, .gemini .blog-header {
+        right: 0;
+      }
+      .pisces .section-layout-wrapper, .gemini .section-layout-wrapper {
+        flex-direction: row-reverse !important;
+      }.pisces .sidebar, .gemini .sidebar {
+        right: 0;
+      }.markdownIt-TOC a {
+      color: #868e96;
+      border-bottom-color: #868e96;
     }.markdownIt-TOC a:hover {
-      color: #fff;
-      border-bottom-color: #fff;
+      color: #495057;
+      border-bottom-color: #495057;
     }.active-current > a {
-      color: #fc6423 !important;
-      border-bottom-color: #fc6423 !important;
+      color: #f3f0ff !important;
+      border-bottom-color: #f3f0ff !important;
     }
     .sidebar-title-active {
-      color: #fc6423 !important;
-      border-bottom-color: #fc6423 !important;
+      color: #f3f0ff;
+      border-bottom-color: #f3f0ff;
     }
     .sidebar-title-item:hover {
-      color: #fc6423 !important;
+      color: #f3f0ff !important;
     }
     .active-show > a {
-      color: #fc6423;
-      border-bottom-color: #fc6423;
+      color: #f3f0ff;
+      border-bottom-color: #f3f0ff;
     }
     .active-hidden > a {
-      color: #fc6423;
-      border-bottom-color: #fc6423;
+      color: #f3f0ff;
+      border-bottom-color: #f3f0ff;
     }
       .site-meta {
         background: #000 !important;
