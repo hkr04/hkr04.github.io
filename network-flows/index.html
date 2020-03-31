@@ -1,0 +1,821 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<meta name="keywords" content="Gridea静态个人博客">
+<meta name="description" content="撒野奔跑，踩碎迷茫。">
+<meta name="theme-color" content="#000">
+<title>网络流 | hkr04‘s blogs</title>
+<link rel="shortcut icon" href="https://hkr04.github.io/favicon.ico?v=1585669564855">
+<link rel="stylesheet" href="https://hkr04.github.io/styles/main.css">
+
+<link rel="stylesheet" href="/media/css/gemini.css">
+
+<link rel="stylesheet" href="/media/fonts/font-awesome.css">
+<link href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|Rosario:300,300italic,400,400italic,700,700italic|PT Mono:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+
+<link href="/media/hljs/styles/xcode.css" rel="stylesheet">  
+
+<script src="/media/hljs/highlight.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/velocity-animate@1.5.0/velocity.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/velocity-animate@1.5.0/velocity.ui.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous"
+    onload="renderMathInElement(document.body);"></script>
+
+    <meta name="description" content="网络流" />
+    <meta name="keywords" content="笔记,网络流" />
+  </head>
+  <body>
+    <div class="head-top-line"></div>
+    <div class="header-box">
+      
+<div class=" gemini">
+  <header class="header bg-color ">
+    <div class="blog-header box-shadow-wrapper bg-color " id="header">
+      <div class="nav-toggle" id="nav_toggle">
+        <div class="toggle-box">
+          <div class="line line-top"></div>
+          <div class="line line-center"></div>
+          <div class="line line-bottom"></div>
+        </div>
+      </div>
+      <div class="site-meta">       
+        <div class="site-title">
+          
+            <a href="/" class="brand">
+              <span>hkr04‘s blogs</span>
+            </a>  
+          
+        </div>
+        
+          <p class="subtitle">撒野奔跑，踩碎迷茫。</p>
+        
+      </div>
+      <nav class="site-nav" id="site_nav">
+        <ul id="nav_ul">
+          
+            <li class="nav-item ">
+              
+                <a href="/">
+                  <i class="fa fa-home"></i> 首页
+                </a>
+              
+            </li>
+          
+            <li class="nav-item ">
+              
+                <a href="/archives">
+                  <i class="fa fa-archive"></i> 归档
+                </a>
+              
+            </li>
+          
+            <li class="nav-item ">
+              
+                <a href="/tags">
+                  <i class="fa fa-tags"></i> 标签
+                </a>
+              
+            </li>
+          
+            <li class="nav-item ">
+              
+                <a href="/about">
+                  <i class="fa fa-globe"></i> 关于
+                </a>
+              
+            </li>
+          
+          <li class="nav-item">
+            <a>
+              <i class="fa fa-search"></i> 搜索
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+</div>
+
+<script type="text/javascript"> 
+ 
+  let showNav = true;
+
+  let navToggle = document.querySelector('#nav_toggle'),
+  siteNav = document.querySelector('#site_nav');
+  
+  function navClick() {
+    let sideBar = document.querySelector('.sidebar');
+    let navUl = document.querySelector('#nav_ul');
+    navToggle.classList.toggle('nav-toggle-active');
+    siteNav.classList.toggle('nav-menu-active');
+    if (siteNav.classList.contains('nav-menu-active')) {
+      siteNav.style = "height: " + (navUl.children.length * 42) +"px !important";
+    } else {
+      siteNav.style = "";
+    }
+  }
+
+  navToggle.addEventListener('click',navClick);  
+</script>
+    </div>
+    <div class="main-continer">
+      
+      <div class="section-layout gemini ">
+        <div class="section-layout-wrapper">
+          
+
+<div class="sidebar">
+  
+    <div class="sidebar-box box-shadow-wrapper bg-color right-motion" id="sidebar">
+      
+        <div class="post-list-sidebar">
+          <div class="sidebar-title">
+            <span id="tocSideBar" class="sidebar-title-item sidebar-title-active">文章目录</span>
+            <span id="metaSideBar" class="sidebar-title-item">站点概览</span>
+          </div>
+        </div>
+      
+      <div class="sidebar-body gemini" id="sidebar_body">
+        
+          
+            <div class="post-side-meta" id="post_side_meta">
+              
+<div class="sidebar-wrapper box-shadow-wrapper bg-color">
+  <div class="sidebar-item">
+    <img class="site-author-image right-motion" src="https://hkr04.github.io/images/avatar.png"/>
+    <p class="site-author-name">hkr04‘s blogs</p>
+    <p class="site-description right-motion">上边是我家猫，右边是可能对你有帮助的算法博客</p>
+  </div>
+  <div class="sidebar-item side-item-stat right-motion">
+    <div class="sidebar-item-box">
+      <a href="/archives/">
+        
+        <span class="site-item-stat-count">10</span>
+        <span class="site-item-stat-name">文章</span>
+      </a>
+    </div>
+    <div class="sidebar-item-box">
+      <a href="">
+        <span class="site-item-stat-count">8</span>
+        <span class="site-item-stat-name">分类</span>
+      </a>
+    </div>
+    <div class="sidebar-item-box">
+      <a href="/tags/">
+        <span class="site-item-stat-count">8</span>
+        <span class="site-item-stat-name">标签</span>
+      </a>
+    </div>
+  </div>
+  
+    
+      <div class="sidebar-item" style="border-top: 1px dotted #ccc; margin-top: 10px;">
+      </div>
+    
+  
+  
+
+
+</div>
+            </div>
+            <div class="post-toc sidebar-body-active" id="post_toc" style="opacity: 1;">
+              <div class="toc-box right-motion">
+  <div class="toc-wrapper auto-number auto" id="toc_wrapper">
+    <ul class="markdownIt-TOC">
+<li><a href="#%E7%BD%91%E7%BB%9C%E6%B5%81%E7%AE%80%E8%BF%B0">网络流简述</a><br>
+*
+<ul>
+<li><a href="#%E5%9F%BA%E6%9C%AC%E6%80%A7%E8%B4%A8">基本性质：</a></li>
+<li><a href="#%E6%9C%80%E5%A4%A7%E6%B5%81">最大流</a></li>
+<li><a href="#%E6%9C%80%E5%B0%8F%E5%89%B2">最小割</a>
+<ul>
+<li><a href="#%E6%9C%80%E5%A4%A7%E6%B5%81%E6%9C%80%E5%B0%8F%E5%89%B2">最大流最小割</a></li>
+<li><a href="#%E9%97%AE%E9%A2%98%E6%A8%A1%E5%9E%8B">问题模型</a>
+<ul>
+<li><a href="#%E6%9C%80%E5%B0%8F%E5%89%B2%E7%9A%84%E8%BE%B9%E6%95%B0">最小割的边数</a></li>
+<li><a href="#%E6%9C%80%E5%B0%8F%E5%89%B2%E9%9B%86%E7%9A%84%E6%B1%82%E8%A7%A3">最小割集的求解</a></li>
+</ul>
+</li>
+<li><a href="#%E4%B8%80%E4%BA%9B%E5%B0%8F%E7%BB%86%E8%8A%82">一些小细节</a></li>
+<li><a href="#%E6%9C%80%E5%A4%A7%E6%B5%81%E6%9C%80%E5%B0%8F%E5%89%B2-%E7%BB%83%E4%B9%A0%E9%A2%98">最大流/最小割 练习题:</a></li>
+</ul>
+</li>
+<li><a href="#%E8%B4%B9%E7%94%A8%E6%B5%81">费用流</a>
+<ul>
+<li><a href="#reference">Reference</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  </div>
+</div>
+
+<script>
+
+let lastTop = 0, lList = [], hList = [], postBody, lastIndex = -1; 
+let active = 'active-show', activeClass = 'active-current';
+let tocWrapper = document.querySelector('#toc_wrapper');
+let tocContent = tocWrapper.children[0];
+let autoNumber = tocWrapper&&tocWrapper.classList.contains('auto-number');
+
+function addTocNumber(elem, deep) {
+  if (!elem) {
+    return;
+  }
+  let prop = elem.__proto__;
+
+  if (prop === HTMLUListElement.prototype) {
+    for (let i = 0; i < elem.children.length; i++) {
+      addTocNumber(elem.children[i], deep + (i + 1) + '.');
+    }
+  } else if (prop === HTMLLIElement.prototype) {
+    // 保存li元素
+    lList.push(elem);
+    for (let i = 0; i < elem.children.length; i++) {
+      let cur = elem.children[i];
+      if (cur.__proto__ === HTMLAnchorElement.prototype) {
+        if (autoNumber) {
+          cur.text =  deep + ' ' + cur.text;
+        }
+      } else if (cur.__proto__ === HTMLUListElement.prototype) {
+        addTocNumber(cur, deep);
+      }
+    }
+  }
+}
+
+
+document.addEventListener('scroll', function(e) {
+  if (lList.length <= 0) {
+    return;
+  }
+  let scrollTop = document.scrollingElement.scrollTop;
+  let dir;
+
+  if (lastTop - scrollTop > 0) {
+    dir = 'up';
+  } else {
+    dir = 'down';
+  }
+
+  lastTop = scrollTop;
+  if (scrollTop <= 0) {
+    if (lastIndex >= 0 && lastIndex < hList.length) {
+      lList[lastIndex].classList.remove(activeClass);
+    }
+    return;
+  }
+
+  let current = 0, hasFind = false;
+  for (let i = 0; i < hList.length; i++) {
+    if (hList[i].offsetTop > scrollTop) {
+      current = i;
+      hasFind = true;
+      break;
+    }
+  }
+  if (!hasFind && scrollTop > lList[lList.length - 1].offsetTop) {
+    current = hList.length - 1;
+  } else {
+    current--;
+  }
+  if (dir === 'down') {
+    if (current > lastIndex) {
+      addActiveClass(current);
+      removeActiveClass(lastIndex) 
+      lastIndex = current;
+      removeParentActiveClass();
+      lList[current] && addActiveLiElemment(lList[current].parentElement,tocContent);
+    }
+  } else {
+    if (current < lastIndex) {
+      addActiveClass(current);
+      removeActiveClass(lastIndex);
+      lastIndex = current;
+      removeParentActiveClass();
+      lList[current] && addActiveLiElemment(lList[current].parentElement,tocContent);
+    }
+  }
+});
+
+function removeParentActiveClass() {
+  let parents = tocContent.querySelectorAll('.'+active)
+  parents.forEach(function(elem) {
+    elem.classList.remove(active);
+  });
+}
+
+function addActiveClass(index) {
+  if (index >= 0 && index < hList.length) {
+    lList[index].classList.add(activeClass);
+  }
+}
+
+function removeActiveClass(index) {
+  if (index >= 0 && index < hList.length) {
+    lList[index].classList.remove(activeClass);
+  }
+}
+
+function addActiveLiElemment(elem, parent) {
+  if (!elem || elem === parent) {
+    return;
+  } else {
+    if (elem.__proto__ === HTMLLIElement.prototype) {
+      elem.classList.add(active);
+    }
+    addActiveLiElemment(elem.parentElement, parent);
+  }
+}
+
+function showToc() {
+  if (tocWrapper) {
+    postBody = document.querySelector('#post_body');
+    for (let i = 0; i < postBody.children.length; i++) {
+      if (postBody.children[i].__proto__ === HTMLHeadingElement.prototype) {
+        hList.push(postBody.children[i]);
+      }
+    }
+    if (tocWrapper.classList.contains('compress')) {
+        tocContent.classList.add('closed');
+    } else if (tocWrapper.classList.contains('no_compress')){
+      tocContent.classList.add('expanded');
+    } else {
+      if (hList.length > 10) {
+        active = 'active-hidden'
+        tocContent.classList.add('closed');
+      } else {
+        tocContent.classList.add('expanded');
+      }
+    }
+  }
+}
+addTocNumber(tocContent, '');
+
+window.addEventListener('load', function() {
+  showToc();
+  document.querySelector('#sidebar').style='display: block;';
+  tocWrapper.classList.add('toc-active');
+  setTimeout(function() {
+    if ("createEvent" in document) {
+      let evt = document.createEvent("HTMLEvents");
+      evt.initEvent("scroll", false, true);
+      document.dispatchEvent(evt);
+    }
+    else {
+      document.fireEvent("scroll");
+    }
+  }, 500)
+})
+
+</script>
+            </div>
+          
+        
+      </div>
+    </div>
+  
+</div>
+<script>
+  const SIDEBAR_TITLE_ACTIVE = 'sidebar-title-active';
+  const SIDEBAR_BODY_ACTIVE = 'sidebar-body-active';
+  const SLIDE_UP_IN = 'slide-up-in';
+
+  let sidebar = document.querySelector('#sidebar'),
+  tocSideBar = document.querySelector('#tocSideBar'),
+  metaSideBar = document.querySelector('#metaSideBar'),
+  postToc = document.querySelector('#post_toc'),
+  postSiteMeta = document.querySelector('#post_side_meta'),
+  sidebarTitle = document.querySelector('.sidebar-title'),
+  sidebarBody = document.querySelector('#sidebar_body');
+
+  tocSideBar && tocSideBar.addEventListener('click', (e) => {
+    toggleSidebar(e);
+  });
+
+  metaSideBar && metaSideBar.addEventListener('click', (e) => {
+    toggleSidebar(e);
+  });
+
+  function toggleSidebar(e) {
+    let currentTitle = document.querySelector("."+SIDEBAR_TITLE_ACTIVE);
+    if (currentTitle == e.srcElement) {
+      return ;
+    }
+    let current, showElement, hideElement;
+    if (e.srcElement == metaSideBar) {
+      showElement = postSiteMeta;
+      hideElement = postToc;
+    } else if (e.srcElement == tocSideBar){
+      showElement = postToc;
+      hideElement = postSiteMeta;
+    }
+    currentTitle.classList.remove(SIDEBAR_TITLE_ACTIVE);
+    e.srcElement.classList.add(SIDEBAR_TITLE_ACTIVE);
+
+    window.Velocity(hideElement, 'stop');
+    window.Velocity(hideElement, 'transition.slideUpOut', {
+      display: 'none',
+      duration: 200,
+      complete: function () {
+        window.Velocity(showElement, 'transition.slideDownIn', {
+          duration: 200
+        });
+      }
+    })
+    hideElement.classList.remove(SIDEBAR_BODY_ACTIVE);
+    showElement.classList.add(SIDEBAR_BODY_ACTIVE);
+  }
+
+  postToc && postToc.addEventListener('transitionend', function() {
+    this.classList.remove(SLIDE_UP_IN);
+  });
+
+  if (sidebarBody) {
+    if (sidebarBody.classList.contains('pisces') || sidebarBody.classList.contains('gemini')) {
+      let hasFix = false;
+      let scrollEl = document.querySelector('.main-continer');
+      let limitTop = document.querySelector('#nav_ul').children.length * 42 + 162;
+      window.addEventListener('scroll', function(e) {
+        if (document.scrollingElement.scrollTop >= limitTop) {
+          if (!hasFix) {
+            sidebar.classList.add('sidebar-fixed');
+            hasFix = true;
+          }
+        } else {
+          if (hasFix) {
+            sidebar.classList.remove('sidebar-fixed');
+            hasFix = false;
+          }
+        }
+      });
+    }
+  }
+  
+</script>
+          <div class="section-box box-shadow-wrapper">
+            <div class="section bg-color post post-page">
+              <div class="article-box">
+    <header class="post-header">
+  <h1 class="post-title">
+    <a class="post-title-link" href="https://hkr04.github.io/network-flows/">
+      网络流
+    </a>
+  </h1>
+  <div class="post-meta">
+    
+    <span class="meta-item pc-show">
+      <i class="fa fa-calendar-o"></i>
+      <span>发布于</span>
+      <span>2020-03-31</span>
+      <span class="post-meta-divider pc-show">|</span>
+    </span>
+    
+      <span class="meta-item">
+        <i class="fa fa-folder-o"></i>
+        <span class="pc-show">分类于</span>
+        
+          
+            <a href="https://hkr04.github.io/rdrsFYwkR/">
+              <span>笔记</span>
+            </a>、
+          
+        
+          
+            <a href="https://hkr04.github.io/BHy59ue1j/">
+              <span>网络流</span>
+            </a>
+          
+        
+      </span>
+      <span class="post-meta-divider">|</span>
+    
+    <span class="meta-item">
+      <i class="fa fa-clock-o"></i>
+      <span>11分钟</span>
+    </span>
+    <span class="meta-item">
+      <span class="post-meta-divider">|</span>
+      <i class="fa fa-file-word-o"></i>
+      <span>2677<span class="pc-show">字数</span></span>
+    </span>
+  </div>
+</header>
+</div>
+              <div class="post-body next-md-body" id="post_body">
+                <h1 id="网络流简述">网络流简述</h1>
+<p><strong>网络流</strong>主要可以拿来解决一些跟有向关系相关的问题，例如液体在管道中的流动、货物的运载、网络中的信息波动等。<br>
+简单介绍一下它：在一个<strong>有向图</strong>上选择一个<strong>源点s</strong>、一个<strong>汇点t</strong>。源点只流出，汇点只流进。同时，一条边<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mo>(</mo><mi>u</mi><mo separator="true">,</mo><mi>v</mi><mo>)</mo></mrow><annotation encoding="application/x-tex">(u,v)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathdefault">u</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault" style="margin-right:0.03588em;">v</span><span class="mclose">)</span></span></span></span>经过的<strong>流量</strong>记为<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>f</mi><mo>(</mo><mi>u</mi><mo separator="true">,</mo><mi>v</mi><mo>)</mo></mrow><annotation encoding="application/x-tex">f(u,v)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.10764em;">f</span><span class="mopen">(</span><span class="mord mathdefault">u</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault" style="margin-right:0.03588em;">v</span><span class="mclose">)</span></span></span></span>,也有<strong>允许通过的最大流量</strong>称为<strong>容量</strong>,记为<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>c</mi><mo>(</mo><mi>u</mi><mo separator="true">,</mo><mi>v</mi><mo>)</mo></mrow><annotation encoding="application/x-tex">c(u,v)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault">c</span><span class="mopen">(</span><span class="mord mathdefault">u</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault" style="margin-right:0.03588em;">v</span><span class="mclose">)</span></span></span></span>。（若该边不存在，则<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>c</mi><mo>(</mo><mi>u</mi><mo separator="true">,</mo><mi>v</mi><mo>)</mo><mo>=</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">c(u,v)=0</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault">c</span><span class="mopen">(</span><span class="mord mathdefault">u</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault" style="margin-right:0.03588em;">v</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">0</span></span></span></span>）。除了源点和汇点以外的每个店入流和出流都相等。一条边上的剩余流量（没有用完的）称为<strong>残量</strong>，即 <strong>容量-流量</strong>。<br>
+因此网络流模型可以形象地描述为：在每一条边都不超过容量限制的前提下，“流”从源点源源不断地产生，最终全部归于汇点。</p>
+<h3 id="基本性质">基本性质：</h3>
+<ol>
+<li><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>f</mi><mo>(</mo><mi>u</mi><mo separator="true">,</mo><mi>v</mi><mo>)</mo><mo>≤</mo><mi>c</mi><mo>(</mo><mi>u</mi><mo separator="true">,</mo><mi>v</mi><mo>)</mo></mrow><annotation encoding="application/x-tex">f(u,v)\le c(u,v)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.10764em;">f</span><span class="mopen">(</span><span class="mord mathdefault">u</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault" style="margin-right:0.03588em;">v</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault">c</span><span class="mopen">(</span><span class="mord mathdefault">u</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault" style="margin-right:0.03588em;">v</span><span class="mclose">)</span></span></span></span><strong>（容量限制）</strong></li>
+<li>对于任何一个不是源点或汇点的点<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mtext>u</mtext></mrow><annotation encoding="application/x-tex">\text{u}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord text"><span class="mord">u</span></span></span></span></span>,总有 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mo>∑</mo><mrow><mi>p</mi><mo>∈</mo><mi>E</mi></mrow></msub><mi>f</mi><mo>(</mo><mi>p</mi><mo separator="true">,</mo><mi>u</mi><mo>)</mo><mo>=</mo><msub><mo>∑</mo><mrow><mi>q</mi><mo>∈</mo><mi>E</mi></mrow></msub><mi>f</mi><mo>(</mo><mi>u</mi><mo separator="true">,</mo><mi>q</mi><mo>)</mo></mrow><annotation encoding="application/x-tex">\sum_{p\in E}f(p,u)=\sum_{q\in E}f(u,q)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.185818em;vertical-align:-0.43581800000000004em;"></span><span class="mop"><span class="mop op-symbol small-op" style="position:relative;top:-0.0000050000000000050004em;">∑</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.17862099999999992em;"><span style="top:-2.40029em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">p</span><span class="mrel mtight">∈</span><span class="mord mathdefault mtight" style="margin-right:0.05764em;">E</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.43581800000000004em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault" style="margin-right:0.10764em;">f</span><span class="mopen">(</span><span class="mord mathdefault">p</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault">u</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1.185818em;vertical-align:-0.43581800000000004em;"></span><span class="mop"><span class="mop op-symbol small-op" style="position:relative;top:-0.0000050000000000050004em;">∑</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.17862099999999992em;"><span style="top:-2.40029em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right:0.03588em;">q</span><span class="mrel mtight">∈</span><span class="mord mathdefault mtight" style="margin-right:0.05764em;">E</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.43581800000000004em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault" style="margin-right:0.10764em;">f</span><span class="mopen">(</span><span class="mord mathdefault">u</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault" style="margin-right:0.03588em;">q</span><span class="mclose">)</span></span></span></span><br>
+<strong>因为入流和出流相等（流量平衡）</strong></li>
+<li>对于任何一条有向边<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mo>(</mo><mi>u</mi><mo separator="true">,</mo><mi>v</mi><mo>)</mo></mrow><annotation encoding="application/x-tex">(u,v)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathdefault">u</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault" style="margin-right:0.03588em;">v</span><span class="mclose">)</span></span></span></span>,总有<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>f</mi><mo>(</mo><mi>u</mi><mo separator="true">,</mo><mi>v</mi><mo>)</mo><mo>=</mo><mo>−</mo><mi>f</mi><mo>(</mo><mi>v</mi><mo separator="true">,</mo><mi>u</mi><mo>)</mo></mrow><annotation encoding="application/x-tex">f(u,v)=-f(v,u)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.10764em;">f</span><span class="mopen">(</span><span class="mord mathdefault">u</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault" style="margin-right:0.03588em;">v</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">−</span><span class="mord mathdefault" style="margin-right:0.10764em;">f</span><span class="mopen">(</span><span class="mord mathdefault" style="margin-right:0.03588em;">v</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault">u</span><span class="mclose">)</span></span></span></span> <strong>（斜对称性）</strong></li>
+</ol>
+<h2 id="最大流">最大流</h2>
+<p>先讲一下比较简单的<strong>最大流问题</strong>。<br>
+直接从字面意思即可理解，从源点流到汇点的流量最大就是最大流。</p>
+<p><strong>算法思想</strong>：从零流（所有边的流量均为0）开始不断增加流量，保持每次增加流量后都满足以上性质（增加流量，也就是减去容量时要相应的给反向边加上等量的容量，便于反悔）。计算每条边上的残量，得到<strong>残量网络</strong>，再继续在残量网络中尝试增加流量。</p>
+<p><strong>增广路算法</strong>基于：残量网络中任何一条从<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>s</mi></mrow><annotation encoding="application/x-tex">s</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathdefault">s</span></span></span></span>到<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>t</mi></mrow><annotation encoding="application/x-tex">t</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.61508em;vertical-align:0em;"></span><span class="mord mathdefault">t</span></span></span></span>的有向道路都对应一条原图中的增广路——只要求出该道路中所有容量的最小值<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mtext>minf</mtext></mrow><annotation encoding="application/x-tex">\text{minf}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord text"><span class="mord">minf</span></span></span></span></span>，把对应的所有边上的流量减去<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mtext>minf</mtext></mrow><annotation encoding="application/x-tex">\text{minf}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord text"><span class="mord">minf</span></span></span></span></span>，在答案里加上它即可，这个过程被称为<strong>增广</strong>。<br>
+<strong>显然只要残量网络中存在增广路，流量就可以增大；反之，如果不存在增广路，流量就已经最大。（增广路定理）</strong></p>
+<p>顺便也讲一下<strong>最大流最小割</strong>定理。</p>
+<h2 id="最小割">最小割</h2>
+<ul>
+<li>割：对于一个网络流图<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>G</mi><mo>=</mo><mo>(</mo><mi>V</mi><mo separator="true">,</mo><mi>E</mi><mo>)</mo></mrow><annotation encoding="application/x-tex">G=(V,E)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault">G</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathdefault" style="margin-right:0.22222em;">V</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault" style="margin-right:0.05764em;">E</span><span class="mclose">)</span></span></span></span>，其割的定义为一种<strong>点的划分方式</strong>：将所有的点划分为<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>S</mi></mrow><annotation encoding="application/x-tex">S</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.05764em;">S</span></span></span></span>和<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>T</mi><mo>=</mo><mi>V</mi><mo>−</mo><mi>S</mi></mrow><annotation encoding="application/x-tex">T=V-S</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.13889em;">T</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.76666em;vertical-align:-0.08333em;"></span><span class="mord mathdefault" style="margin-right:0.22222em;">V</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.05764em;">S</span></span></span></span>两个集合，其中源点<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>s</mi><mo>∈</mo><mi>S</mi></mrow><annotation encoding="application/x-tex">s\in S</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.5782em;vertical-align:-0.0391em;"></span><span class="mord mathdefault">s</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">∈</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.05764em;">S</span></span></span></span>，汇点<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>t</mi><mo>∈</mo><mi>T</mi></mrow><annotation encoding="application/x-tex">t\in T</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.65418em;vertical-align:-0.0391em;"></span><span class="mord mathdefault">t</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">∈</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.13889em;">T</span></span></span></span>。</li>
+<li>割的容量：定义割的容量<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>c</mi><mo>(</mo><mi>S</mi><mo separator="true">,</mo><mi>T</mi><mo>)</mo></mrow><annotation encoding="application/x-tex">c(S,T)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault">c</span><span class="mopen">(</span><span class="mord mathdefault" style="margin-right:0.05764em;">S</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault" style="margin-right:0.13889em;">T</span><span class="mclose">)</span></span></span></span>表示所有从<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>S</mi></mrow><annotation encoding="application/x-tex">S</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.05764em;">S</span></span></span></span>到<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>T</mi></mrow><annotation encoding="application/x-tex">T</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.13889em;">T</span></span></span></span>的边的容量之和，即<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>c</mi><mo>(</mo><mi>S</mi><mo separator="true">,</mo><mi>T</mi><mo>)</mo><mo>=</mo><msub><mo>∑</mo><mrow><mi>u</mi><mo>∈</mo><mi>S</mi><mo separator="true">,</mo><mi>v</mi><mo>∈</mo><mi>T</mi></mrow></msub><mi>c</mi><mo>(</mo><mi>u</mi><mo separator="true">,</mo><mi>v</mi><mo>)</mo></mrow><annotation encoding="application/x-tex">c(S,T)=\sum_{u\in S,v\in T}c(u,v)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault">c</span><span class="mopen">(</span><span class="mord mathdefault" style="margin-right:0.05764em;">S</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault" style="margin-right:0.13889em;">T</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1.185818em;vertical-align:-0.43581800000000004em;"></span><span class="mop"><span class="mop op-symbol small-op" style="position:relative;top:-0.0000050000000000050004em;">∑</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.17862099999999992em;"><span style="top:-2.40029em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">u</span><span class="mrel mtight">∈</span><span class="mord mathdefault mtight" style="margin-right:0.05764em;">S</span><span class="mpunct mtight">,</span><span class="mord mathdefault mtight" style="margin-right:0.03588em;">v</span><span class="mrel mtight">∈</span><span class="mord mathdefault mtight" style="margin-right:0.13889em;">T</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.43581800000000004em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault">c</span><span class="mopen">(</span><span class="mord mathdefault">u</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault" style="margin-right:0.03588em;">v</span><span class="mclose">)</span></span></span></span>。当然也可以用<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>c</mi><mo>(</mo><mi>s</mi><mo separator="true">,</mo><mi>t</mi><mo>)</mo></mrow><annotation encoding="application/x-tex">c(s,t)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault">c</span><span class="mopen">(</span><span class="mord mathdefault">s</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault">t</span><span class="mclose">)</span></span></span></span>表示割的容量。</li>
+<li>最小割：使得容量最小的割<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mo>(</mo><mi>S</mi><mo separator="true">,</mo><mi>T</mi><mo>)</mo></mrow><annotation encoding="application/x-tex">(S,T)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathdefault" style="margin-right:0.05764em;">S</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault" style="margin-right:0.13889em;">T</span><span class="mclose">)</span></span></span></span>。也可以理解为使得<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>S</mi></mrow><annotation encoding="application/x-tex">S</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.05764em;">S</span></span></span></span>和<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>T</mi></mrow><annotation encoding="application/x-tex">T</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.13889em;">T</span></span></span></span>不联通所需要删去边权最小的割。</li>
+</ul>
+<h3 id="最大流最小割">最大流最小割</h3>
+<ul>
+<li><strong>定理</strong>：<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>f</mi><mo>(</mo><mi>s</mi><mo separator="true">,</mo><mi>t</mi><msub><mo>)</mo><mrow><mi>m</mi><mi>a</mi><mi>x</mi></mrow></msub><mo>=</mo><mi>c</mi><mo>(</mo><mi>s</mi><mo separator="true">,</mo><mi>t</mi><msub><mo>)</mo><mrow><mi>m</mi><mi>i</mi><mi>n</mi></mrow></msub></mrow><annotation encoding="application/x-tex">f(s,t)_{max}=c(s,t)_{min}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.10764em;">f</span><span class="mopen">(</span><span class="mord mathdefault">s</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault">t</span><span class="mclose"><span class="mclose">)</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.151392em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">m</span><span class="mord mathdefault mtight">a</span><span class="mord mathdefault mtight">x</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault">c</span><span class="mopen">(</span><span class="mord mathdefault">s</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault">t</span><span class="mclose"><span class="mclose">)</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">m</span><span class="mord mathdefault mtight">i</span><span class="mord mathdefault mtight">n</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span></li>
+<li><strong>证明</strong>：对于任意一个可行流<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>f</mi><mo>(</mo><mi>s</mi><mo separator="true">,</mo><mi>t</mi><mo>)</mo></mrow><annotation encoding="application/x-tex">f(s,t)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.10764em;">f</span><span class="mopen">(</span><span class="mord mathdefault">s</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault">t</span><span class="mclose">)</span></span></span></span>和任意割<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mo>(</mo><mi>S</mi><mo separator="true">,</mo><mi>T</mi><mo>)</mo></mrow><annotation encoding="application/x-tex">(S,T)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathdefault" style="margin-right:0.05764em;">S</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault" style="margin-right:0.13889em;">T</span><span class="mclose">)</span></span></span></span>，有：<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>f</mi><mo>(</mo><mi>s</mi><mo separator="true">,</mo><mi>t</mi><mo>)</mo><mo>=</mo><msub><mi>S</mi><mtext>出边的总流量</mtext></msub><mo>−</mo><msub><mi>S</mi><mtext>入边的总流量</mtext></msub><mo>≤</mo><msub><mi>S</mi><mtext>出边的总流量</mtext></msub><mo>=</mo><mi>c</mi><mo>(</mo><mi>s</mi><mo separator="true">,</mo><mi>t</mi><mo>)</mo></mrow><annotation encoding="application/x-tex">f(s,t)=S_\text{出边的总流量}-S_\text{入边的总流量}\le S_\text{出边的总流量}=c(s,t)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.10764em;">f</span><span class="mopen">(</span><span class="mord mathdefault">s</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault">t</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.83333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.05764em;">S</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.32833099999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.05764em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord text mtight"><span class="mord cjk_fallback mtight">出边的总流量</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.83333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.05764em;">S</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.32833099999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.05764em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord text mtight"><span class="mord cjk_fallback mtight">入边的总流量</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.83333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.05764em;">S</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.32833099999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.05764em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord text mtight"><span class="mord cjk_fallback mtight">出边的总流量</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault">c</span><span class="mopen">(</span><span class="mord mathdefault">s</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault">t</span><span class="mclose">)</span></span></span></span>。而当达到最大流时，残量网络中不存在从<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>s</mi></mrow><annotation encoding="application/x-tex">s</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathdefault">s</span></span></span></span>到<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>t</mi></mrow><annotation encoding="application/x-tex">t</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.61508em;vertical-align:0em;"></span><span class="mord mathdefault">t</span></span></span></span>的增广路，所以<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>S</mi></mrow><annotation encoding="application/x-tex">S</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.05764em;">S</span></span></span></span>的出边都是满流，上式等号成立。同时，上式的另一表达形式为<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>f</mi><mo>(</mo><mi>s</mi><mo separator="true">,</mo><mi>t</mi><msub><mo>)</mo><mrow><mi>m</mi><mi>a</mi><mi>x</mi></mrow></msub><mo>≤</mo><mi>c</mi><mo>(</mo><mi>s</mi><mo separator="true">,</mo><mi>t</mi><msub><mo>)</mo><mrow><mi>m</mi><mi>i</mi><mi>n</mi></mrow></msub></mrow><annotation encoding="application/x-tex">f(s,t)_{max}\le c(s,t)_{min}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.10764em;">f</span><span class="mopen">(</span><span class="mord mathdefault">s</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault">t</span><span class="mclose"><span class="mclose">)</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.151392em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">m</span><span class="mord mathdefault mtight">a</span><span class="mord mathdefault mtight">x</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault">c</span><span class="mopen">(</span><span class="mord mathdefault">s</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault">t</span><span class="mclose"><span class="mclose">)</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">m</span><span class="mord mathdefault mtight">i</span><span class="mord mathdefault mtight">n</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>。又因等号可以取到，则<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>f</mi><mo>(</mo><mi>s</mi><mo separator="true">,</mo><mi>t</mi><msub><mo>)</mo><mrow><mi>m</mi><mi>a</mi><mi>x</mi></mrow></msub><mo>=</mo><mi>c</mi><mo>(</mo><mi>s</mi><mo separator="true">,</mo><mi>t</mi><msub><mo>)</mo><mrow><mi>m</mi><mi>i</mi><mi>n</mi></mrow></msub></mrow><annotation encoding="application/x-tex">f(s,t)_{max}=c(s,t)_{min}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.10764em;">f</span><span class="mopen">(</span><span class="mord mathdefault">s</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault">t</span><span class="mclose"><span class="mclose">)</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.151392em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">m</span><span class="mord mathdefault mtight">a</span><span class="mord mathdefault mtight">x</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault">c</span><span class="mopen">(</span><span class="mord mathdefault">s</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault">t</span><span class="mclose"><span class="mclose">)</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">m</span><span class="mord mathdefault mtight">i</span><span class="mord mathdefault mtight">n</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>，证毕。</li>
+</ul>
+<h3 id="问题模型">问题模型</h3>
+<p>一般在最小割的问题中，割掉一条边表示<strong>选择某个条件</strong>，而边权表示的是<strong>选择这个条件的价值</strong>。至于该价值的贡献是好是坏，则根据你如何使用这个价值而定。</p>
+<p>举个例子，对于二分图，有点集<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>U</mi><mo separator="true">,</mo><mi>V</mi></mrow><annotation encoding="application/x-tex">U,V</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8777699999999999em;vertical-align:-0.19444em;"></span><span class="mord mathdefault" style="margin-right:0.10903em;">U</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault" style="margin-right:0.22222em;">V</span></span></span></span>。<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi mathvariant="normal">∀</mi><mi>e</mi><mo>=</mo><mo>(</mo><mi>u</mi><mo separator="true">,</mo><mi>v</mi><mo>)</mo><mo>(</mo><mi>u</mi><mo>∈</mo><mi>U</mi><mo separator="true">,</mo><mi>v</mi><mo>∈</mo><mi>V</mi><mo>)</mo></mrow><annotation encoding="application/x-tex">\forall e=(u,v) (u\in U,v\in V)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord">∀</span><span class="mord mathdefault">e</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathdefault">u</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault" style="margin-right:0.03588em;">v</span><span class="mclose">)</span><span class="mopen">(</span><span class="mord mathdefault">u</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">∈</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.8777699999999999em;vertical-align:-0.19444em;"></span><span class="mord mathdefault" style="margin-right:0.10903em;">U</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault" style="margin-right:0.03588em;">v</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">∈</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.22222em;">V</span><span class="mclose">)</span></span></span></span>表示<strong>u、v中至少选择一个</strong>，保证无孤立点，求<strong>最小点权覆盖集</strong>。<br>
+<img src="https://cdn.luogu.com.cn/upload/image_hosting/2fdq4eo2.png" alt="example1" loading="lazy"><br>
+设左边为点集<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>U</mi></mrow><annotation encoding="application/x-tex">U</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.10903em;">U</span></span></span></span>，右边为点集<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>V</mi></mrow><annotation encoding="application/x-tex">V</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.22222em;">V</span></span></span></span>，如图所示连边。割掉红色边表示选择<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>U</mi></mrow><annotation encoding="application/x-tex">U</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.10903em;">U</span></span></span></span>中某个点，其点权设为<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>v</mi><mi>a</mi><msub><mi>l</mi><mi>u</mi></msub></mrow><annotation encoding="application/x-tex">val_u</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.84444em;vertical-align:-0.15em;"></span><span class="mord mathdefault" style="margin-right:0.03588em;">v</span><span class="mord mathdefault">a</span><span class="mord"><span class="mord mathdefault" style="margin-right:0.01968em;">l</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.151392em;"><span style="top:-2.5500000000000003em;margin-left:-0.01968em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">u</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>；割掉蓝色边表示选择该边两端的点，其点权设为<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>v</mi><mi>a</mi><msub><mi>l</mi><mi>u</mi></msub><mo>+</mo><mi>v</mi><mi>a</mi><msub><mi>l</mi><mi>v</mi></msub></mrow><annotation encoding="application/x-tex">val_u+val_v</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.84444em;vertical-align:-0.15em;"></span><span class="mord mathdefault" style="margin-right:0.03588em;">v</span><span class="mord mathdefault">a</span><span class="mord"><span class="mord mathdefault" style="margin-right:0.01968em;">l</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.151392em;"><span style="top:-2.5500000000000003em;margin-left:-0.01968em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">u</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.84444em;vertical-align:-0.15em;"></span><span class="mord mathdefault" style="margin-right:0.03588em;">v</span><span class="mord mathdefault">a</span><span class="mord"><span class="mord mathdefault" style="margin-right:0.01968em;">l</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.151392em;"><span style="top:-2.5500000000000003em;margin-left:-0.01968em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight" style="margin-right:0.03588em;">v</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>；割掉橙色边表示选择<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>V</mi></mrow><annotation encoding="application/x-tex">V</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.22222em;">V</span></span></span></span>中某个点，边权设为<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>v</mi><mi>a</mi><msub><mi>l</mi><mi>v</mi></msub></mrow><annotation encoding="application/x-tex">val_v</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.84444em;vertical-align:-0.15em;"></span><span class="mord mathdefault" style="margin-right:0.03588em;">v</span><span class="mord mathdefault">a</span><span class="mord"><span class="mord mathdefault" style="margin-right:0.01968em;">l</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.151392em;"><span style="top:-2.5500000000000003em;margin-left:-0.01968em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight" style="margin-right:0.03588em;">v</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>。这样一来，若一条边不从<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>s</mi></mrow><annotation encoding="application/x-tex">s</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathdefault">s</span></span></span></span>连通到<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>t</mi></mrow><annotation encoding="application/x-tex">t</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.61508em;vertical-align:0em;"></span><span class="mord mathdefault">t</span></span></span></span>，则表示至少有一个点被选中，求得的最小割即为最小点权之和，覆盖集可通过边的使用情况求得。<br>
+事实上，我们都清楚，为了使点权之和最小化，蓝色的边是不会被割掉的。而仍然要设置它的原因，一是为了结合问题背景来建模，二是让它承担<strong>通道</strong>的角色，保证网络流图的性质。问题建模是非常值得琢磨的。</p>
+<p>如果转换一下，边的限制变成<strong>u、v中至多选一个</strong>，求<strong>最大点权独立集</strong>。其本质相同，因为至多选一个等价于至少删去一个。由此可以看出，最大点权独立集为最小点权覆盖集的补集，其解法自然也就不言而喻了。</p>
+<p>这里只是提供了一个参考的思路，具体的问题还要具体分析。</p>
+<h4 id="最小割的边数">最小割的边数</h4>
+<p>将边权设为1重新求一遍最小割即可。</p>
+<h4 id="最小割集的求解">最小割集的求解</h4>
+<p>由于使用网络流解决此类问题效率较为低下，普遍使用<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mtext mathvariant="monospace">Stoer-Wagner</mtext></mrow><annotation encoding="application/x-tex">\texttt{Stoer-Wagner}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.83333em;vertical-align:-0.22222em;"></span><span class="mord text"><span class="mord texttt">Stoer-Wagner</span></span></span></span></span>算法进行求解，有兴趣可自行查阅。</p>
+<h3 id="一些小细节">一些小细节</h3>
+<ul>
+<li>
+<p>存图的时候要从偶数开始存，同时存正向边和反向边（这样就可以保证正向边编号全为偶数，反向边编号为 i^1（奇偶性相反））</p>
+</li>
+<li>
+<p>反向边怎么用？因为找到的增广路不一定是最优的，反边给你“反悔”的机会。如果一条边边权为0，那么往回走的时候并不会对流量有所影响（走不回去）。所以一开始反边的边权应该存0。当正向边减去<strong>流过这条边的增广路上容量最小值d</strong>（此时这个值已经被加入到了答案）的时候，反向边应该加上d（因为对于源点和汇点来说中间流量的这些变化都是无差别的，为了保证反向正向相加得<strong>原边权</strong>，也就是不改变原本的条件就得这么做）</p>
+</li>
+</ul>
+<p><a href="https://www.luogu.com.cn/blog/hkr04/Edmonds-Karp">Edmonds-Karp(EK)</a> 便是不断用<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mtext>BFS</mtext></mrow><annotation encoding="application/x-tex">\text{BFS}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord text"><span class="mord">BFS</span></span></span></span></span>来寻找增广路，直到图中不存在增广路的算法。</p>
+<p>但是如果一条一条地找出增广路，万一有一些极（毒）端（瘤）数据（比如几条相邻的边容量相差特别大），这个时间复杂度就是无法承受的。<a href="https://www.luogu.com.cn/blog/hkr04/Dinic">Dinic</a>的高效之处在于它能够同时找出几条增广路.</p>
+<p>关于最大流，我还没有讲完！当然，实际上在大部分情况下以上两个算法已经够用（我认为）。可以先跳过剩下有关最大流的算法。</p>
+<p><s>（这里应该有ISAP和HLPP）</s></p>
+<h3 id="最大流最小割-练习题">最大流/最小割 练习题:</h3>
+<p><a href="https://www.luogu.com.cn/problem/P2740">USACO4.2 草地排水</a></p>
+<p><a href="https://www.luogu.com.cn/problem/P2756">飞行员配对方案问题</a></p>
+<p><a href="https://www.luogu.com.cn/problem/P1344">USACO4.4 追查坏牛奶</a></p>
+<p><a href="https://www.luogu.com.cn/problem/P3254">圆桌问题</a></p>
+<p><a href="https://www.luogu.com.cn/problem/P2764">最小路径覆盖问题</a></p>
+<p><a href="https://www.luogu.com.cn/problem/P2765">魔术球问题</a></p>
+<p><a href="https://www.luogu.com.cn/problem/P2766">最长不下降子序列问题</a></p>
+<p><a href="https://www.luogu.com.cn/problem/P2774">方格取数问题</a></p>
+<h2 id="费用流">费用流</h2>
+<p>假如流经一条边有对应流量的花费，那么问题就可以有更多的变式了。</p>
+<ul>
+<li>定义一条边的费用<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>w</mi><mo>(</mo><mi>u</mi><mo separator="true">,</mo><mi>v</mi><mo>)</mo></mrow><annotation encoding="application/x-tex">w(u,v)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.02691em;">w</span><span class="mopen">(</span><span class="mord mathdefault">u</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault" style="margin-right:0.03588em;">v</span><span class="mclose">)</span></span></span></span>表示单位流量流经所需花费的费用。即，当边<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mo>(</mo><mi>u</mi><mo separator="true">,</mo><mi>v</mi><mo>)</mo></mrow><annotation encoding="application/x-tex">(u,v)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathdefault">u</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault" style="margin-right:0.03588em;">v</span><span class="mclose">)</span></span></span></span>的流量为<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>f</mi><mo>(</mo><mi>u</mi><mo separator="true">,</mo><mi>v</mi><mo>)</mo></mrow><annotation encoding="application/x-tex">f(u,v)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.10764em;">f</span><span class="mopen">(</span><span class="mord mathdefault">u</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault" style="margin-right:0.03588em;">v</span><span class="mclose">)</span></span></span></span>时，需要花费<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>f</mi><mo>(</mo><mi>u</mi><mo separator="true">,</mo><mi>v</mi><mo>)</mo><mo>×</mo><mi>w</mi><mo>(</mo><mi>u</mi><mo separator="true">,</mo><mi>v</mi><mo>)</mo></mrow><annotation encoding="application/x-tex">f(u,v)\times w(u,v)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.10764em;">f</span><span class="mopen">(</span><span class="mord mathdefault">u</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault" style="margin-right:0.03588em;">v</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.02691em;">w</span><span class="mopen">(</span><span class="mord mathdefault">u</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault" style="margin-right:0.03588em;">v</span><span class="mclose">)</span></span></span></span>的费用。</li>
+</ul>
+<p>类似的，我们先从<strong>最小费用最大流</strong>引入。即在最大化流量的基础上使得总花费最小。<br>
+这当然和上面的最大流相关。之前寻找增广路的方式是<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mtext mathvariant="monospace">BFS</mtext></mrow><annotation encoding="application/x-tex">\texttt{BFS}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.61111em;vertical-align:0em;"></span><span class="mord text"><span class="mord texttt">BFS</span></span></span></span></span>，对于<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mtext mathvariant="monospace">EK</mtext></mrow><annotation encoding="application/x-tex">\texttt{EK}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.61111em;vertical-align:0em;"></span><span class="mord text"><span class="mord texttt">EK</span></span></span></span></span>来说，就是在边权为1的图上找到<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>s</mi><mo>→</mo><mi>t</mi></mrow><annotation encoding="application/x-tex">s\rightarrow t</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathdefault">s</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">→</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.61508em;vertical-align:0em;"></span><span class="mord mathdefault">t</span></span></span></span>的一条最短路。那么，将 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mtext mathvariant="monospace">BFS</mtext></mrow><annotation encoding="application/x-tex">\texttt{BFS}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.61111em;vertical-align:0em;"></span><span class="mord text"><span class="mord texttt">BFS</span></span></span></span></span> 更换为寻找最短路的算法，边权设为<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>w</mi><mo>(</mo><mi>u</mi><mo separator="true">,</mo><mi>v</mi><mo>)</mo></mrow><annotation encoding="application/x-tex">w(u,v)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.02691em;">w</span><span class="mopen">(</span><span class="mord mathdefault">u</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault" style="margin-right:0.03588em;">v</span><span class="mclose">)</span></span></span></span>，会产生什么样的效果呢？</p>
+<p>这样的方式，既保证了最短路的性质，也保证了增广路的性质。由于每单位流到汇点的流量都要花费途经的边权之和，则最短路的性质使得了这些每次从最短路流过的流量是<strong>最划算</strong>的。在这样的情境下，反向边相当于<strong>退钱</strong>，所以要将边权设为<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mo>−</mo><mi>w</mi><mo>(</mo><mi>u</mi><mo separator="true">,</mo><mi>v</mi><mo>)</mo></mrow><annotation encoding="application/x-tex">-w(u,v)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">−</span><span class="mord mathdefault" style="margin-right:0.02691em;">w</span><span class="mopen">(</span><span class="mord mathdefault">u</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault" style="margin-right:0.03588em;">v</span><span class="mclose">)</span></span></span></span>。</p>
+<p>而 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mtext mathvariant="monospace">Dinic</mtext></mrow><annotation encoding="application/x-tex">\texttt{Dinic}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.61111em;vertical-align:0em;"></span><span class="mord text"><span class="mord texttt">Dinic</span></span></span></span></span> 是同时找到多条增广路的算法，只需将 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mtext mathvariant="monospace">BFS</mtext></mrow><annotation encoding="application/x-tex">\texttt{BFS}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.61111em;vertical-align:0em;"></span><span class="mord text"><span class="mord texttt">BFS</span></span></span></span></span> 更改为最短路算法的同时，限制流量只能由当前点流向到汇点的最短路上的点即可。</p>
+<p>因为有负权边的存在，所以不能直接采用 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mtext mathvariant="monospace">Dijkstra</mtext></mrow><annotation encoding="application/x-tex">\texttt{Dijkstra}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.83333em;vertical-align:-0.22222em;"></span><span class="mord text"><span class="mord texttt">Dijkstra</span></span></span></span></span> ，应该采用 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mtext mathvariant="monospace">SPFA</mtext></mrow><annotation encoding="application/x-tex">\texttt{SPFA}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.61111em;vertical-align:0em;"></span><span class="mord text"><span class="mord texttt">SPFA</span></span></span></span></span> 或经由 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mtext mathvariant="monospace">Primal-Dual（原始对偶算法）</mtext></mrow><annotation encoding="application/x-tex">\texttt{Primal-Dual（原始对偶算法）}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.61111em;vertical-align:0em;"></span><span class="mord text"><span class="mord texttt">Primal-Dual</span><span class="mord texttt cjk_fallback">（原始对偶算法）</span></span></span></span></span> 处理的 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mtext mathvariant="monospace">Dijkstra</mtext></mrow><annotation encoding="application/x-tex">\texttt{Dijkstra}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.83333em;vertical-align:-0.22222em;"></span><span class="mord text"><span class="mord texttt">Dijkstra</span></span></span></span></span> 。</p>
+<h3 id="reference">Reference</h3>
+<ul>
+<li><a href="https://www.luogu.org/blog/ONE-PIECE/wang-lao-liu-jiang-xie-zhi-dinic">EK不够快？ 再学个Dinic吧   by 钱逸凡</a></li>
+<li><a href="https://www.cnblogs.com/SYCstudio/p/7260613.html">Dinic算法  by SYCstudio</a></li>
+<li><a href="https://artofproblemsolving.com/community/c1368h1020435">从入门到精通：最小费用流的“zkw”算法 by zkw</a></li>
+<li><a href="https://oi-wiki.org/">OI Wiki</a></li>
+<li>《算法竞赛入门经典第二版》</li>
+<li>《算法竞赛进阶指南》</li>
+<li>《算法导论》</li>
+</ul>
+
+              </div>
+              <div class="post-footer">
+  <ul class="post-copyright">
+    <li class="post-copyright-author">
+      <strong>本文作者：</strong>
+      hkr04‘s blogs
+    </li>
+    <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="https://hkr04.github.io/network-flows/" title="网络流">网络流</a>
+    </li>
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong>
+      本博客所有文章除特别声明外，转载请注明出处！
+    </li>
+  </ul>
+  <div class="tags">
+    
+      <a href="https://hkr04.github.io/rdrsFYwkR/"># 笔记</a>
+    
+      <a href="https://hkr04.github.io/BHy59ue1j/"># 网络流</a>
+    
+  </div>
+  <div class="nav">
+    <div class="nav-prev">
+      
+    </div>
+    <div class="nav-next">
+      
+        <a class="nav-pc-next" title="线段树入门" href="https://hkr04.github.io/segment-tree/">线段树入门</a>
+        <a class="nav-mobile-next" title="线段树入门" href="https://hkr04.github.io/segment-tree/">下一篇</a>
+        <i class="fa fa-chevron-right"></i>
+      
+    </div>
+  </div>
+</div>
+              
+                
+                  <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+
+<div id="gitalk-container"></div>
+
+<script>
+  var gitalk = new Gitalk({
+    clientID: '',
+    clientSecret: '',
+    repo: '',
+    owner: '',
+    admin: [''],
+    id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+    distractionFreeMode: false  // Facebook-like distraction free mode
+  })
+  gitalk.render('gitalk-container')
+</script>
+                
+                
+                
+              
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="footer-box">
+  <footer class="footer">
+    <div class="copyright">
+      Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | © 2019-2020 Theme By HsxyHao
+    </div>
+    <div class="poweredby">
+      <a href="https://codeforces.com/profile/hkr04">find me in codeforces</a>
+<br/>
+<a href="https://www.luogu.com.cn/user/111528">find me in luogu</a>
+    </div>
+  </footer>
+  
+  
+  <div class="gemini back-to-top" id="back_to_top">
+    <i class="fa fa-arrow-up"></i>
+    
+    <span class="scrollpercent">
+      <span id="back_to_top_text">0</span>%
+    </span>
+    
+  </div>
+  
+  
+  
+</div>
+<script>
+
+  let sideBarOpen = 'sidebar-open';
+  let body = document.body;
+  let back2Top = document.querySelector('#back_to_top'),
+  back2TopText = document.querySelector('#back_to_top_text'),
+  drawerBox = document.querySelector('#drawer_box'),
+  rightSideBar = document.querySelector('.sidebar'),
+  viewport = document.querySelector('body');
+
+  function scrollAnimation(currentY, targetY) {
+   
+    let needScrollTop = targetY - currentY
+    let _currentY = currentY
+    setTimeout(() => {
+      const dist = Math.ceil(needScrollTop / 10)
+      _currentY += dist
+      window.scrollTo(_currentY, currentY)
+      if (needScrollTop > 10 || needScrollTop < -10) {
+        scrollAnimation(_currentY, targetY)
+      } else {
+        window.scrollTo(_currentY, targetY)
+      }
+    }, 1)
+  }
+
+  back2Top.addEventListener("click", function(e) {
+    scrollAnimation(document.scrollingElement.scrollTop, 0);
+    e.stopPropagation();
+    return false;
+  });
+  
+  window.addEventListener('scroll', function(e) {
+    let percent = document.scrollingElement.scrollTop / (document.scrollingElement.scrollHeight - document.scrollingElement.clientHeight) * 100;
+    if (percent > 1 && !back2Top.classList.contains('back-top-active')) {
+      back2Top.classList.add('back-top-active');
+    }
+    if (percent == 0) {
+      back2Top.classList.remove('back-top-active');
+    }
+    if (back2TopText) {
+      back2TopText.textContent = Math.floor(percent);
+    }
+  });
+
+  
+  let hasCacu = false;
+  window.onresize = function() {
+    if (window.width > 991) {
+      calcuHeight();
+    } else {
+      hasCacu = false;
+    }
+  }
+
+  function calcuHeight() {
+    // 动态调整站点概览高度
+    if (!hasCacu && back2Top.classList.contains('pisces') || back2Top.classList.contains('gemini')) {
+      let sideBar = document.querySelector('.sidebar');
+      let navUl = document.querySelector('#site_nav');
+      sideBar.style = 'margin-top:' + (navUl.offsetHeight + navUl.offsetTop + 15) + 'px;';
+      hasCacu = true;
+    }
+  }
+  calcuHeight();
+  
+  let open = false, MOTION_TIME = 300, RIGHT_MOVE_DIS = '320px';
+
+  if (drawerBox) {
+    let rightMotions = document.querySelectorAll('.right-motion');
+    let right = drawerBox.classList.contains('right');
+
+    let transitionDir = right ? "transition.slideRightIn" : "transition.slideLeftIn";
+
+    let openProp, closeProp;
+    if (right) {
+      openProp = {
+        paddingRight: RIGHT_MOVE_DIS 
+      };
+      closeProp = {
+        paddingRight: '0px'
+      };
+    } else {
+      openProp = {
+        paddingLeft: RIGHT_MOVE_DIS 
+      };
+      closeProp = {
+        paddingLeft: '0px'
+      };
+    }
+
+    drawerBox.onclick = function() {
+      open = !open;
+      window.Velocity(rightSideBar, 'stop');
+      window.Velocity(viewport, 'stop');
+      window.Velocity(rightMotions, 'stop');
+      if (open) {
+        window.Velocity(rightSideBar, {
+          width: RIGHT_MOVE_DIS
+        }, {
+          duration: MOTION_TIME,
+          begin: function() {
+            window.Velocity(rightMotions, transitionDir,{ });
+          }
+        })
+        window.Velocity(viewport, openProp,{
+          duration: MOTION_TIME
+        });
+      } else {
+        window.Velocity(rightSideBar, {
+          width: '0px'
+        }, {
+          duration: MOTION_TIME,
+          begin: function() {
+            window.Velocity(rightMotions, {
+              opacity: 0
+            });
+          }
+        })
+        window.Velocity(viewport, closeProp ,{
+          duration: MOTION_TIME
+        });
+      }
+      for (let i = 0; i < drawerBox.children.length; i++) {
+        drawerBox.children[i].classList.toggle('muse-line');
+      }
+      drawerBox.classList.toggle(sideBarOpen);
+    }
+  }
+
+  // 代码高亮
+  hljs.initHighlightingOnLoad();
+
+</script>
+    </div>
+  </body>
+  <script src="/media/js/motion.js"></script>
+</html>
