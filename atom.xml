@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://hkr04.github.io</id>
     <title>hkr04‘s blogs</title>
-    <updated>2020-04-01T00:54:36.736Z</updated>
+    <updated>2020-04-01T11:05:20.668Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://hkr04.github.io"/>
     <link rel="self" href="https://hkr04.github.io/atom.xml"/>
@@ -344,7 +344,7 @@ void insert(char *s,int l_s)
 这当然和上面的最大流相关。之前寻找增广路的方式是<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mtext mathvariant="monospace">BFS</mtext></mrow><annotation encoding="application/x-tex">\texttt{BFS}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.61111em;vertical-align:0em;"></span><span class="mord text"><span class="mord texttt">BFS</span></span></span></span></span>，对于<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mtext mathvariant="monospace">EK</mtext></mrow><annotation encoding="application/x-tex">\texttt{EK}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.61111em;vertical-align:0em;"></span><span class="mord text"><span class="mord texttt">EK</span></span></span></span></span>来说，就是在边权为1的图上找到<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>s</mi><mo>→</mo><mi>t</mi></mrow><annotation encoding="application/x-tex">s\rightarrow t</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathdefault">s</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">→</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.61508em;vertical-align:0em;"></span><span class="mord mathdefault">t</span></span></span></span>的一条最短路。那么，将 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mtext mathvariant="monospace">BFS</mtext></mrow><annotation encoding="application/x-tex">\texttt{BFS}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.61111em;vertical-align:0em;"></span><span class="mord text"><span class="mord texttt">BFS</span></span></span></span></span> 更换为寻找最短路的算法，边权设为<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>w</mi><mo>(</mo><mi>u</mi><mo separator="true">,</mo><mi>v</mi><mo>)</mo></mrow><annotation encoding="application/x-tex">w(u,v)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.02691em;">w</span><span class="mopen">(</span><span class="mord mathdefault">u</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault" style="margin-right:0.03588em;">v</span><span class="mclose">)</span></span></span></span>，会产生什么样的效果呢？</p>
 <p>这样的方式，既保证了最短路的性质，也保证了增广路的性质。由于每单位流到汇点的流量都要花费途经的边权之和，则最短路的性质使得了这些每次从最短路流过的流量是<strong>最划算</strong>的。在这样的情境下，反向边相当于<strong>退钱</strong>，所以要将边权设为<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mo>−</mo><mi>w</mi><mo>(</mo><mi>u</mi><mo separator="true">,</mo><mi>v</mi><mo>)</mo></mrow><annotation encoding="application/x-tex">-w(u,v)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">−</span><span class="mord mathdefault" style="margin-right:0.02691em;">w</span><span class="mopen">(</span><span class="mord mathdefault">u</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault" style="margin-right:0.03588em;">v</span><span class="mclose">)</span></span></span></span>。</p>
 <p>而 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mtext mathvariant="monospace">Dinic</mtext></mrow><annotation encoding="application/x-tex">\texttt{Dinic}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.61111em;vertical-align:0em;"></span><span class="mord text"><span class="mord texttt">Dinic</span></span></span></span></span> 是同时找到多条增广路的算法，只需将 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mtext mathvariant="monospace">BFS</mtext></mrow><annotation encoding="application/x-tex">\texttt{BFS}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.61111em;vertical-align:0em;"></span><span class="mord text"><span class="mord texttt">BFS</span></span></span></span></span> 更改为最短路算法的同时，限制流量只能由当前点流向到汇点的最短路上的点即可。</p>
-<p>因为有负权边的存在，所以不能直接采用 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mtext mathvariant="monospace">Dijkstra</mtext></mrow><annotation encoding="application/x-tex">\texttt{Dijkstra}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.83333em;vertical-align:-0.22222em;"></span><span class="mord text"><span class="mord texttt">Dijkstra</span></span></span></span></span> ，应该采用 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mtext mathvariant="monospace">SPFA</mtext></mrow><annotation encoding="application/x-tex">\texttt{SPFA}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.61111em;vertical-align:0em;"></span><span class="mord text"><span class="mord texttt">SPFA</span></span></span></span></span> 或经由 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mtext mathvariant="monospace">Primal-Dual（原始对偶算法）</mtext></mrow><annotation encoding="application/x-tex">\texttt{Primal-Dual（原始对偶算法）}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.61111em;vertical-align:0em;"></span><span class="mord text"><span class="mord texttt">Primal-Dual</span><span class="mord texttt cjk_fallback">（原始对偶算法）</span></span></span></span></span> 处理的 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mtext mathvariant="monospace">Dijkstra</mtext></mrow><annotation encoding="application/x-tex">\texttt{Dijkstra}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.83333em;vertical-align:-0.22222em;"></span><span class="mord text"><span class="mord texttt">Dijkstra</span></span></span></span></span> 。</p>
+<p>因为有负权边的存在，所以不能直接采用 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mtext mathvariant="monospace">Dijkstra</mtext></mrow><annotation encoding="application/x-tex">\texttt{Dijkstra}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.83333em;vertical-align:-0.22222em;"></span><span class="mord text"><span class="mord texttt">Dijkstra</span></span></span></span></span> ，应该采用 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mtext mathvariant="monospace">SPFA</mtext></mrow><annotation encoding="application/x-tex">\texttt{SPFA}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.61111em;vertical-align:0em;"></span><span class="mord text"><span class="mord texttt">SPFA</span></span></span></span></span> 或经由 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mtext mathvariant="monospace">Primal-Dual（原始对偶算法）</mtext></mrow><annotation encoding="application/x-tex">\texttt{Primal-Dual（原始对偶算法）}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.61111em;vertical-align:0em;"></span><span class="mord text"><span class="mord texttt">Primal-Dual</span><span class="mord texttt cjk_fallback">（原始对偶算法）</span></span></span></span></span> 处理的 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mtext mathvariant="monospace">Dijkstra</mtext></mrow><annotation encoding="application/x-tex">\texttt{Dijkstra}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.83333em;vertical-align:-0.22222em;"></span><span class="mord text"><span class="mord texttt">Dijkstra</span></span></span></span></span> 。同时，由于向下走的条件发生改变，有可能会往回走，所以需要标记当前链上的点，防止陷入无限循环。</p>
 <h3 id="reference">Reference</h3>
 <ul>
 <li><a href="https://www.luogu.org/blog/ONE-PIECE/wang-lao-liu-jiang-xie-zhi-dinic">EK不够快？ 再学个Dinic吧   by 钱逸凡</a></li>
@@ -749,6 +749,7 @@ int main()
 </ol>
 <p>在优化<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mtext>BFS</mtext></mrow><annotation encoding="application/x-tex">\text{BFS}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord text"><span class="mord">BFS</span></span></span></span></span>次数之后，我们还可以进行优化——<strong>当前弧优化</strong>。</p>
 <p>对于在不同的分层图进行<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mtext>DFS</mtext></mrow><annotation encoding="application/x-tex">\text{DFS}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord text"><span class="mord">DFS</span></span></span></span></span>的过程中，不重复走之前走过的<strong>满流</strong>的边，因为再走下去终究会卡住，是白做工。可以用一个数组<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mtext>cur</mtext></mrow><annotation encoding="application/x-tex">\text{cur}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord text"><span class="mord">cur</span></span></span></span></span>记录一下当前点更新到哪条边了，具体看代码。</p>
+<h3 id="最大流">最大流</h3>
 <pre><code class="language-cpp">#include &lt;cstdio&gt;
 #include &lt;cstring&gt;
 const int maxn=10000+10;
@@ -841,6 +842,108 @@ int main()
     }
     printf(&quot;%d\n&quot;,maxflow);
     return 0;
+}
+</code></pre>
+<h3 id="最小费用最大流">最小费用最大流</h3>
+<pre><code class="language-cpp">#include &lt;cstdio&gt;
+#include &lt;cstring&gt;
+#include &lt;queue&gt;
+using std::queue;
+typedef long long ll;
+const int maxn=5e3+10;
+const int maxm=5e4+10;
+const ll INF=1LL&lt;&lt;60;
+ll val[maxm&lt;&lt;1],cost[maxm&lt;&lt;1],dis[maxn];
+int cur[maxn],head[maxn],to[maxm&lt;&lt;1],nxt[maxm&lt;&lt;1];
+int tot=1;
+int n,m,s,t;
+bool vis[maxn],inq[maxn];
+queue&lt;int&gt; q;
+
+ll min(ll x,ll y) {return x&lt;y?x:y;}
+void add(int u,int v,ll w,ll c)
+{
+	nxt[++tot]=head[u];
+	head[u]=tot;
+	to[tot]=v;
+	val[tot]=w;
+	cost[tot]=c;
+}
+bool SPFA()
+{
+	for (int i=1;i&lt;=n;i++)
+		dis[i]=INF;
+	dis[s]=0;
+	inq[s]=1;
+	q.push(s);
+	while(!q.empty())
+	{
+		int u=q.front();
+		q.pop();
+		inq[u]=0;
+		for (int i=head[u];i;i=nxt[i])
+		{
+			int v=to[i];
+			if (val[i]&amp;&amp;dis[v]&gt;dis[u]+cost[i])
+			{
+				dis[v]=dis[u]+cost[i];
+				if (!inq[v])
+				{
+					inq[v]=1;
+					q.push(v);
+				}
+			}
+		}
+	}
+	return dis[t]!=INF;
+}
+ll dfs(int u,ll minf)
+{
+	if (u==t)
+		return minf;
+
+	vis[u]=1;
+	ll used=0;
+	for (int &amp;i=cur[u];i;i=nxt[i])
+	{
+		int v=to[i];
+		if (!vis[v]&amp;&amp;val[i]&amp;&amp;dis[v]==dis[u]+cost[i])
+		{
+			ll flow=dfs(v, min(minf-used, val[i]));
+			if (flow)
+			{
+				used+=flow;
+				val[i]-=flow;
+				val[i^1]+=flow;
+				if (used==minf)
+					break;
+			}
+		}
+	}
+	vis[u]=0;
+	return used;
+}
+int main()
+{
+	scanf(&quot;%d%d%d%d&quot;,&amp;n,&amp;m,&amp;s,&amp;t);
+	for (int i=1;i&lt;=m;i++)
+	{
+		int u,v;
+		ll w,c;
+		scanf(&quot;%d%d%lld%lld&quot;,&amp;u,&amp;v,&amp;w,&amp;c);
+		add(u, v, w, c),add(v, u, 0, -c);
+	}
+	ll ans=0,maxflow=0;
+	while(SPFA())
+	{
+		for (int i=1;i&lt;=n;i++)
+			cur[i]=head[i];
+		ll flow=dfs(s, INF);
+		maxflow+=flow;
+		ans+=dis[t]*flow;
+	}
+	printf(&quot;%lld %lld\n&quot;,maxflow,ans);
+	return 0;
 }
 </code></pre>
 ]]></content>
