@@ -7,7 +7,7 @@
 <meta name="description" content="撒野奔跑，踩碎迷茫。">
 <meta name="theme-color" content="#000">
 <title>AC自动机 | hkr04‘s blogs</title>
-<link rel="shortcut icon" href="https://hkr04.github.io/favicon.ico?v=1585701190496">
+<link rel="shortcut icon" href="https://hkr04.github.io/favicon.ico?v=1585702471423">
 <link rel="stylesheet" href="https://hkr04.github.io/styles/main.css">
 
 <link rel="stylesheet" href="/media/css/gemini.css">
@@ -190,8 +190,8 @@
 <ul>
 <li>
 <ul>
-<li><a href="#trie%E6%A0%91">Trie树:</a></li>
-<li><a href="#%E5%85%B3%E4%BA%8Etrie%E6%A0%91%E7%9A%84%E5%AE%9A%E4%B9%89">关于trie树的定义:</a></li>
+<li><a href="#trie%E6%A0%91">Trie树</a></li>
+<li><a href="#%E5%85%B3%E4%BA%8Etrie%E6%A0%91%E7%9A%84%E5%AE%9A%E4%B9%89">关于trie树的定义</a></li>
 </ul>
 </li>
 <li><a href="#%E4%B8%8B%E9%9D%A2%E6%88%91%E4%BB%AC%E6%9D%A5%E8%A7%A3%E5%86%B3%E6%9F%A5%E8%AF%A2%E6%98%AF%E5%90%A6%E6%9C%89%E5%AD%97%E7%AC%A6%E4%B8%B2s%E7%9A%84%E6%9F%90%E4%B8%AA%E5%AD%90%E4%B8%B2%E5%9C%A8%E9%9B%86%E5%90%88%E4%B8%AD%E7%9A%84%E8%BF%99%E4%B8%AA%E9%97%AE%E9%A2%98">下面我们来解决查询是否有字符串<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>s</mi></mrow><annotation encoding="application/x-tex">s</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathdefault">s</span></span></span></span>的某个子串在集合中的这个问题</a><br>
@@ -507,7 +507,7 @@ window.addEventListener('load', function() {
 </div>
               <div class="post-body next-md-body" id="post_body">
                 <p><strong>AC自动机</strong>利用<strong>trie树</strong>可以高效解决有关多个字符串的问题。</p>
-<h3 id="trie树">Trie树:</h3>
+<h3 id="trie树">Trie树</h3>
 <p>也称<strong>字典树</strong>，它的本质是使得字符串集合<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>S</mi></mrow><annotation encoding="application/x-tex">S</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.05764em;">S</span></span></span></span>构成一棵树，其中边权记录字符信息。<br>
 它的根到任意节点的路径对应集合<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>S</mi></mrow><annotation encoding="application/x-tex">S</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.05764em;">S</span></span></span></span>中某一字符串的前缀。<br>
 任意节点向深度增大的方向经过的路径对应<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>S</mi></mrow><annotation encoding="application/x-tex">S</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.05764em;">S</span></span></span></span>中某一字符串的子串。<br>
@@ -532,7 +532,7 @@ void insert(char *s,int l_s)
 	end[p]++;
 }
 </code></pre>
-<h3 id="关于trie树的定义">关于trie树的定义:</h3>
+<h3 id="关于trie树的定义">关于trie树的定义</h3>
 <ul>
 <li>状态:从根节点到任何一个字典树上的节点的路径表示的字符串都代表着一个状态</li>
 <li>转移:任意一个状态添加一个新的字符得到新状态</li>

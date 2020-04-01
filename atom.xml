@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://hkr04.github.io</id>
     <title>hkr04‘s blogs</title>
-    <updated>2020-04-01T00:33:15.683Z</updated>
+    <updated>2020-04-01T00:54:36.736Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://hkr04.github.io"/>
     <link rel="self" href="https://hkr04.github.io/atom.xml"/>
@@ -165,7 +165,7 @@ int main()
         </link>
         <updated>2020-04-01T00:30:38.000Z</updated>
         <content type="html"><![CDATA[<p><strong>AC自动机</strong>利用<strong>trie树</strong>可以高效解决有关多个字符串的问题。</p>
-<h3 id="trie树">Trie树:</h3>
+<h3 id="trie树">Trie树</h3>
 <p>也称<strong>字典树</strong>，它的本质是使得字符串集合<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>S</mi></mrow><annotation encoding="application/x-tex">S</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.05764em;">S</span></span></span></span>构成一棵树，其中边权记录字符信息。<br>
 它的根到任意节点的路径对应集合<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>S</mi></mrow><annotation encoding="application/x-tex">S</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.05764em;">S</span></span></span></span>中某一字符串的前缀。<br>
 任意节点向深度增大的方向经过的路径对应<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>S</mi></mrow><annotation encoding="application/x-tex">S</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.05764em;">S</span></span></span></span>中某一字符串的子串。<br>
@@ -190,7 +190,7 @@ void insert(char *s,int l_s)
 	end[p]++;
 }
 </code></pre>
-<h3 id="关于trie树的定义">关于trie树的定义:</h3>
+<h3 id="关于trie树的定义">关于trie树的定义</h3>
 <ul>
 <li>状态:从根节点到任何一个字典树上的节点的路径表示的字符串都代表着一个状态</li>
 <li>转移:任意一个状态添加一个新的字符得到新状态</li>
