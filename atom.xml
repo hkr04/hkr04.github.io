@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://hkr04.github.io</id>
     <title>hkr04‘s blogs</title>
-    <updated>2020-03-31T15:47:16.268Z</updated>
+    <updated>2020-04-01T00:23:41.131Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://hkr04.github.io"/>
     <link rel="self" href="https://hkr04.github.io/atom.xml"/>
@@ -66,8 +66,8 @@
 <p>反向边怎么用？因为找到的增广路不一定是最优的，反边给你“反悔”的机会。如果一条边边权为0，那么往回走的时候并不会对流量有所影响（走不回去）。所以一开始反边的边权应该存0。当正向边减去<strong>流过这条边的增广路上容量最小值d</strong>（此时这个值已经被加入到了答案）的时候，反向边应该加上d（因为对于源点和汇点来说中间流量的这些变化都是无差别的，为了保证反向正向相加得<strong>原边权</strong>，也就是不改变原本的条件就得这么做）</p>
 </li>
 </ul>
-<p><a href="https://www.luogu.com.cn/blog/hkr04/Edmonds-Karp">Edmonds-Karp(EK)</a> 便是不断用<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mtext>BFS</mtext></mrow><annotation encoding="application/x-tex">\text{BFS}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord text"><span class="mord">BFS</span></span></span></span></span>来寻找增广路，直到图中不存在增广路的算法。</p>
-<p>但是如果一条一条地找出增广路，万一有一些极（毒）端（瘤）数据（比如几条相邻的边容量相差特别大），这个时间复杂度就是无法承受的。<a href="https://www.luogu.com.cn/blog/hkr04/Dinic">Dinic</a>的高效之处在于它能够同时找出几条增广路.</p>
+<p><a href="https://hkr04.github.io/Edmunds-Karp/">Edmonds-Karp(EK)</a> 便是不断用<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mtext>BFS</mtext></mrow><annotation encoding="application/x-tex">\text{BFS}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord text"><span class="mord">BFS</span></span></span></span></span>来寻找增广路，直到图中不存在增广路的算法。</p>
+<p>但是如果一条一条地找出增广路，万一有一些极（毒）端（瘤）数据（比如几条相邻的边容量相差特别大），这个时间复杂度就是无法承受的。<a href="https://hkr04.github.io/Dinic/">Dinic</a>的高效之处在于它能够同时找出几条增广路.</p>
 <p>关于最大流，我还没有讲完！当然，实际上在大部分情况下以上两个算法已经够用（我认为）。可以先跳过剩下有关最大流的算法。</p>
 <p><s>（这里应该有ISAP和HLPP）</s></p>
 <h3 id="最大流最小割-练习题">最大流/最小割 练习题</h3>
